@@ -331,7 +331,8 @@ var interval, timeInter, dianliangInter;var _default = { data: function data() {
       systemTime: '', //系统时间
       size: uni.getStorageSync('fontsize') ? uni.getStorageSync('fontsize') : 40, //正文字体大小
       lineHeight: uni.getStorageSync('lineHeight') ? uni.getStorageSync('lineHeight') : 70, //正文行间距
-      nextUrl: '', windowHeight: 0, scroll_top: 0 };}, onUnload: function onUnload() {// 页面卸载的时候清除定时器
+      nextUrl: '', windowHeight: 0, scroll_top: 0, type: '' //翻页方式
+    };}, onUnload: function onUnload() {// 页面卸载的时候清除定时器
     clearInterval(timeInter);clearInterval(dianliangInter);uni.hideLoading(); //页面卸载的时候将通知栏显示出来
   }, created: function created() {var _this = this;var this_ = this; //获取状态栏高度给顶部占位节点
     var zt = uni.getStorageSync('zhuti'); //主题索引
@@ -347,8 +348,7 @@ var interval, timeInter, dianliangInter;var _default = { data: function data() {
   }, onHide: function onHide() {//页面隐藏的时候将通知栏显示出来
   }, onLoad: function onLoad(e) {var _this2 = this;this.dianliang();this.getTimes(); //每分钟获取一次电量
     dianliangInter = setInterval(function () {_this2.dianliang();}, 60000); //每秒获取一次时间
-    timeInter = setInterval(function () {_this2.getTimes();}, 1000);this.getText(e);}, methods: { scrolltolower: function scrolltolower() {this.getText({ url: this.nextUrl });}, getText: function getText(param) {var cheerio = __webpack_require__(/*! cheerio */ 17);var this_ = this;this.getHtml({ url: param.url, success: function success(res) {this_.content_text = '';uni.pageScrollTo({ scrollTop: 0, duration: 10 });var $ = cheerio.load(res);this_.section_title = $('#mains').find('h1').text();var text = this_.section_title + "<br><br>";$('#book_text').find('p').each(function (e, w) {text += "&nbsp;&nbsp;&nbsp;&nbsp;" + $(this).text() + "<br><br>";});this_.content_text = text;this_.shuming = $('#mains').find('span').eq(1).text();this_.nextUrl = this_.$bookUrl + $(".book_content_text_next").find('a').eq(2).attr('href');var book = uni.getStorageSync('book');book.hisUrl = param.url;
-          book.hisTitle = this_.content_text;
+    timeInter = setInterval(function () {_this2.getTimes();}, 1000);this.getText(e);}, methods: { scrolltolower: function scrolltolower() {this.getText({ url: this.nextUrl });}, getText: function getText(param) {var cheerio = __webpack_require__(/*! cheerio */ 17);var this_ = this;this.getHtml({ url: param.url, success: function success(res) {this_.content_text = '';uni.pageScrollTo({ scrollTop: 0, duration: 10 });var $ = cheerio.load(res);this_.section_title = $('.bookname').find('h1').text();var text = this_.section_title + "<br><br>";text += $.html('#content');this_.content_text = text;this_.shuming = param.name;this_.nextUrl = $(".bottem1").find('a').eq(3).attr('href');var book = uni.getStorageSync('book');book.hisUrl = param.url;book.hisTitle = this_.content_text;
           book.list = [];
           var hislist;
           try {

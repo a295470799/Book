@@ -9,7 +9,7 @@
 
 			<view class="l-head">
 				<view class="l-search" @tap="$toast(`搜索`)">
-					<image class="l-icon-search" src="../../static/l-icon-search.svg" mode=""></image>
+					<image class="l-icon-search" src="../../static/l-icon-search.png" mode=""></image>
 					<input type="text" class="l-search-input" disabled="" value="" placeholder="斗破苍穹" placeholder-class="l-holder" />
 					<label class="l-line"></label>
 					<button class="l-nav-bookrack" @tap="navto">书城</button>
@@ -95,30 +95,23 @@
 				success: function(res){
 					var list = [];
 					const $ = cheerio.load(res)
-					list.push({
-						name: $('#maininfo').find('h1').text(),
-						url: this_.$bookUrl + $('#info').find('a').attr('href').split("/n")[0],
-						user: $('#maininfo').find('p').eq(0).text(),
-						desc: $('#intror').find('p').text(),
-						image: $('#fmimg').find('img').attr('src')
-					}) 
-					var data = $('dl');
+					var data = $('#hotcontent .item');
 					data.each(function(i, elem) {
 					   list.push({
-					   	name: $(this).find('a').text(),
-					   	url: this_.$bookUrl + $(this).find('a').attr('href'),
-					   	user: $(this).find('.tit').text(),
-					   	desc: $(this).find('.name').text(),
-					   	image: $(this).find('img').attr('src')
-					   }) 
+						name: $(this).find('dl a').text(),
+						url: $(this).find('dt a').attr('href'),
+						user: '作者：' + $(this).find('dt span').text(),
+						desc: $(this).find('dd').text(),
+						image: $(this).find('img').attr('src'),
+					   })
 					});
 					this_.bookList = list
 					var tyes = []
-					$(".second-cat-list").find('li').each(function(e,w){
+					$(".nav").find('li').each(function(e,w){
 						if(e != 0 && tyes.length < 8){
 							tyes.push({
 								name: $(this).find('a').text(),
-								url: this_.$bookUrl + $(this).find('a').attr('href')
+								url: $(this).find('a').attr('href')
 							})
 						}
 					})

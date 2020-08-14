@@ -222,58 +222,28 @@ var _default =
   onLoad: function onLoad() {
     var cheerio = __webpack_require__(/*! cheerio */ 17);
     var this_ = this;
-    // this_.bookList = [
-    // 	{
-    // 		name: '元尊',
-    // 		url: 'https://www.280xs.com/dingdian/36_36369/',
-    // 		user: '作者：天蚕土豆',
-    // 		desc: '吾有一口玄黄气，可吞天地日月星。天蚕土豆最新鼎力大作，2017年度必看玄幻小说。',
-    // 		image: 'https://www.280xs.com/files/article/image/36/36369/36369s.jpg'
-    // 	},
-    // 	{
-    // 		name: '武炼巅峰',
-    // 		url: 'https://www.280xs.com/dingdian/2_2686/',
-    // 		user: '作者：莫默',
-    // 		desc: '武之巅峰，是孤独，是寂寞，是漫漫求索，是高处不胜寒 逆境中成长，绝地里求生，不屈不饶，才能堪破武之极道。',
-    // 		image: 'https://www.280xs.com/files/article/image/2/2686/2686s.jpg'
-    // 	},
-    // 	{
-    // 		name: '我从凡间来',
-    // 		url: 'https://www.280xs.com/dingdian/5_5679/',
-    // 		user: '作者：想见江南',
-    // 		desc: '我从凡间来，到此觅长生。',
-    // 		image: 'https://www.280xs.com/files/article/image/5/5679/5679s.jpg'
-    // 	},
-    // ]
     this.getHtml({
       url: this_.$bookUrl,
       success: function success(res) {
         var list = [];
         var $ = cheerio.load(res);
-        list.push({
-          name: $('#maininfo').find('h1').text(),
-          url: this_.$bookUrl + $('#info').find('a').attr('href').split("/n")[0],
-          user: $('#maininfo').find('p').eq(0).text(),
-          desc: $('#intror').find('p').text(),
-          image: $('#fmimg').find('img').attr('src') });
-
-        var data = $('dl');
+        var data = $('#hotcontent .item');
         data.each(function (i, elem) {
           list.push({
-            name: $(this).find('a').text(),
-            url: this_.$bookUrl + $(this).find('a').attr('href'),
-            user: $(this).find('.tit').text(),
-            desc: $(this).find('.name').text(),
+            name: $(this).find('dl a').text(),
+            url: $(this).find('dt a').attr('href'),
+            user: '作者：' + $(this).find('dt span').text(),
+            desc: $(this).find('dd').text(),
             image: $(this).find('img').attr('src') });
 
         });
         this_.bookList = list;
         var tyes = [];
-        $(".second-cat-list").find('li').each(function (e, w) {
+        $(".nav").find('li').each(function (e, w) {
           if (e != 0 && tyes.length < 8) {
             tyes.push({
               name: $(this).find('a').text(),
-              url: this_.$bookUrl + $(this).find('a').attr('href') });
+              url: $(this).find('a').attr('href') });
 
           }
         });

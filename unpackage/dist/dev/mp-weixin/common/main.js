@@ -41,7 +41,7 @@ _vue.default.prototype.getHtml = function (param) {
 };
 
 
-_vue.default.prototype.$bookUrl = 'https://www.280xs.com';
+_vue.default.prototype.$bookUrl = 'http://www.biquge.info';
 
 var app = new _vue.default(_objectSpread({},
 _App.default));

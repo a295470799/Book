@@ -32,7 +32,7 @@ Vue.prototype.getHtml = function(param){
 }
 
 
-Vue.prototype.$bookUrl = 'https://www.280xs.com'
+Vue.prototype.$bookUrl = 'http://www.biquge.info'
 
 const app = new Vue({
     ...App

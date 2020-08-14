@@ -4,7 +4,7 @@
 
 		<view class="l-head">
 			<view class="l-search" @tap="$toast(`搜索`)">
-				<image class="l-icon-search" src="../../static/l-icon-search.svg" mode=""></image>
+				<image class="l-icon-search" src="../../static/l-icon-search.png" mode=""></image>
 				<input type="text" class="l-search-input" disabled="" value="" placeholder="精彩热搜：金光布袋戏《羽国志异》" placeholder-class="l-holder" />
 			</view>
 		</view>

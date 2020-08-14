@@ -83,7 +83,6 @@
 			}
 		},
 		onLoad(param) {
-			console.log(param.id);
 			this.book.image = param.image
 			this.url = param.url
 			uni.setNavigationBarTitle({
@@ -98,24 +97,19 @@
 					const $ = cheerio.load(res)
 					this_.book = {
 						name: $('#maininfo').find('h1').text(),
-						user: $('#maininfo').find('h3').text(),
+						user: $('#info').find('p').eq(0).text(),
 						desc: $('#intro').find('p').text(),
-						update: $('#maininfo').find('p').eq(0).text(),
-						newName: '最新章节：' + $('#maininfo').find('span').find('a').text(),
+						update: $('#maininfo').find('p').eq(2).text(),
+						newName: '最新章节：' + $('#info').find('p').eq(3).find('a').text(),
 						// 最新章节
-						newUrl: $('#maininfo').find('span').find('a').attr('href'),
-						// 封面地址
-						image: $('.img').find('img').attr('src'),
-						// 下载地址
-						dowloadUrl:  this_.$bookUrl + $(".jianjie_right").find('a').eq(0).attr('href'),
-						
+						newUrl: param.url + $('#info').find('p').eq(3).find('a').attr('href'),
 					}
-					$('.article_texttitleb').find('li').each(function(i, elem) {
+					$('#list').find('dd').each(function(i, elem) {
 						this_.zhangjie.push({
 							name: $(this).find('a').text(),
-							url: this_.$bookUrl + $(this).find('a').attr('href')
+							url: param.url + $(this).find('a').attr('href')
 						})
-					}), 
+					}),
 					//this_.book.list = this_.zhangjie;
 					uni.setStorageSync('book', this_.book)
 				}
