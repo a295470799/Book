@@ -35,8 +35,9 @@
 				<view class="l-bottom-left">背景</view>
 				<view class="l-bottom-right">
 					<view class="l-bottom-color" v-for="(item,index) in themes" @tap="changeTheme(index)" :key="item.name" 
-					:style="{ backgroundColor: item.pageBg, borderColor:thisTheme==index ? item.fontColor : 'rgba(0,0,0,0)'}"
-					 v-if="index != 1 && index != 2"></view>
+					:style="{ backgroundColor : item.pageBg, borderColor : thisTheme == index ? item.fontColor : 'rgba(0,0,0,0)'}"
+					 v-if="index != 1 && index != 2">
+					 </view>
 				</view>
 			</view>
 			<view class="l-bottom-setting3">
@@ -44,11 +45,11 @@
 					<view><text class="tficon">&#xe671;</text></view>
 					<view>目录</view>
 				</view>
-				<view @click="changeTheme(thisTheme==1?0:1)">
-					<view><text class="tficon">{{thisTheme==1?'&#xe699;':'&#xe612;'}}</text></view>
+				<view @click="changeTheme(thisTheme == 1 ? 0 : 1)">
+					<view><text class="tficon">{{ thisTheme == 1 ? '&#xe699;' : '&#xe612;' }}</text></view>
 					<view>{{thisTheme==1?'白天':'夜间'}}</view>
 				</view>
-				<view @click="changeTheme(thisTheme==2?0:2)" :style="thisTheme==2?'color:green':''">
+				<view @click="changeTheme(thisTheme == 2 ? 0 : 2)" :style="thisTheme == 2 ? 'color:green' : ''">
 					<view><text class="tficon">&#xe639;</text></view>
 					<view>护眼</view>
 				</view>
