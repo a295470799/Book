@@ -42,15 +42,15 @@
 			</view>
 			<view class="l-bottom-setting3">
 				<view @click="getMenu()">
-					<view><text class="tficon">&#xe671;</text></view>
+					<view><text class="iconfont">&#xe6ae;</text></view>
 					<view>目录</view>
 				</view>
 				<view @click="changeTheme(thisTheme == 1 ? 0 : 1)">
-					<view><text class="tficon">{{ thisTheme == 1 ? '&#xe699;' : '&#xe612;' }}</text></view>
+					<view><text class="iconfont">{{ thisTheme == 1 ? '&#xe7ed;' : '&#xe70f;' }}</text></view>
 					<view>{{thisTheme==1?'白天':'夜间'}}</view>
 				</view>
 				<view @click="changeTheme(thisTheme == 2 ? 0 : 2)" :style="thisTheme == 2 ? 'color:green' : ''">
-					<view><text class="tficon">&#xe639;</text></view>
+					<view><text class="iconfont">&#xe763;</text></view>
 					<view>护眼</view>
 				</view>
 			</view>
@@ -299,21 +299,15 @@
 </script>
 <style>
 	@font-face {
-		font-family: "iconfont";
-		src: url('/static/font/dianliang.ttf') format('truetype');
+	  font-family: 'iconfont';  /* project id 2007537 */
+	  src: url('//at.alicdn.com/t/font_2007537_cxvcumhe5o.eot');
+	  src: url('//at.alicdn.com/t/font_2007537_cxvcumhe5o.eot?#iefix') format('embedded-opentype'),
+	  url('//at.alicdn.com/t/font_2007537_cxvcumhe5o.woff2') format('woff2'),
+	  url('//at.alicdn.com/t/font_2007537_cxvcumhe5o.woff') format('woff'),
+	  url('//at.alicdn.com/t/font_2007537_cxvcumhe5o.ttf') format('truetype'),
+	  url('//at.alicdn.com/t/font_2007537_cxvcumhe5o.svg#iconfont') format('svg');
 	}
-
-	.iconfont {
-		font-family: "iconfont" !important;
-		font-style: normal;
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-	}
-
-	.icon-80dianliang:before {
-		content: "\e617";
-	}
-
+	
 	.l-page-bg {
 		position: fixed;
 		top: 0;
@@ -477,15 +471,12 @@
 		height: 40rpx;
 	}
 
-	@font-face {
-		font-family: "ydiconfont";
-		src: url('https://at.alicdn.com/t/font_1282539_9h0uwv1sxps.ttf') format('truetype');
-		/* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
-	}
+	
 
-	.tficon {
-		font-family: ydiconfont;
-		font-size: 34rpx;
+	.iconfont {
+		font-family: iconfont;
+		font-size: 42rpx;
+		color: #333333;
 	}
 
 	.guanggao {
