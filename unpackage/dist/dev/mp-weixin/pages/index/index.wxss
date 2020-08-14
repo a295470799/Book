@@ -1,0 +1,267 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* l-head */
+.l-nav-bookrack {
+	font-size: 26rpx;
+	background: 0;
+	font-weight: 500;
+	color: #555555;
+}
+.l-line{
+	margin-right: 30rpx;
+	border-right: 1rpx solid #7E7E7E;
+	height: 25rpx;
+}
+
+/* l-main */
+.l-main {
+	padding-bottom: 32rpx;
+}
+.l-h3 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+}
+.l-h3-title {
+	font: bold var(--f-size-5) normal;
+}
+.l-h3-more {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	color: var(--c-bg-2);
+}
+.l-dl {
+	margin-top: 40rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: start;
+	-webkit-align-items: flex-start;
+	        align-items: flex-start;
+	width: 100%;
+	height: 210rpx;
+}
+.l-dt {
+	width: 160rpx;
+	height: 100%;
+	border-radius: 10rpx;
+	margin-right: 24rpx;
+}
+.l-dd {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+}
+.l-dd-title {
+	color: var(--c-txt-1);
+	font: var(--f-size-3) normal;
+}
+.l-dd-content,
+.l-dd-footer {
+	color: var(--c-txt-2);
+	font: var(--f-size-1)/var(--f-size-4) normal;
+}
+.l-dd-content {
+	width: 100%;
+	margin: 10rpx 0;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	overflow: hidden;
+}
+.l-dd-footer {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.l-dd-view-footer {
+	width: 100%;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	-webkit-line-clamp: 2;
+}
+.l-dd-img {
+	width: 40rpx;
+	height: 40rpx;
+	border-radius: 50%;
+	margin-right: 6rpx;
+}
+
