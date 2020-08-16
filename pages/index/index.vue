@@ -8,13 +8,11 @@
 			<!-- l-head -->
 
 			<view class="l-head">
-				<view class="l-search" @tap="$toast(`搜索`)">
+				<view class="l-search" @tap="navtoSearch">
 					<image class="l-icon-search" src="../../static/l-icon-search.png" mode=""></image>
-					<input type="text" class="l-search-input" disabled="" value="" placeholder="斗破苍穹" placeholder-class="l-holder" />
-					<label class="l-line"></label>
-					<button class="l-nav-bookrack" @tap="navto">书城</button>
+					<input type="text" class="l-search-input" disabled="" value="" placeholder="斗罗大陆" placeholder-class="l-holder" />
 				</view>
-				
+				<button class="l-nav-bookrack" @tap="navto">书城</button>
 			</view>
 		</view>
 
@@ -85,6 +83,11 @@
 				uni.navigateTo({
 					url: `/pages/detail/detail?url=` + url.url + '&name=' + url.name + '&image=' + url.image
 				})
+			},
+			navtoSearch(){
+				uni.navigateTo({
+					url: `/pages/search/search`
+				})
 			}
 		},
 		onLoad() {
@@ -115,7 +118,7 @@
 							})
 						}
 					})
-					uni.setStorageSync('types',tyes)
+					uni.setStorage('types',tyes)
 				}
 			})
 			
@@ -127,19 +130,13 @@
 	/* l-head */
 
 	.l-nav-bookrack {
-		font-size: 26rpx;
+		font-size: 28rpx;
 		background: 0;
-		font-weight: 500;
+		font-weight: 600;
 		color: #555555;
+		padding-left: 15rpx;
 	}
 	
-	.l-line{
-		margin-right: 30rpx;
-		border-right: 1rpx solid #7E7E7E;
-		height: 25rpx;
-	}
-
-
 	/* l-main */
 
 	.l-main {

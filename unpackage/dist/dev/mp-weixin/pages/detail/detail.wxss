@@ -1,7 +1,4 @@
 
-.content {
-	padding-bottom: 108rpx;
-}
 .l-list-sub-content{
 	line-height: 55rpx;
 }
@@ -189,7 +186,6 @@
 	        align-items: center;
 	color: var(--c-bg-2);
 }
-
 /* list */
 .l-list-view {
 	padding-top: 40rpx;
@@ -240,7 +236,6 @@
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
 }
-
 /* share */
 .l-share {
 	position: fixed;

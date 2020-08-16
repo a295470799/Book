@@ -1,0 +1,106 @@
+
+@font-face {
+  font-family: 'iconfont';  /* project id 2007537 */
+  src: url('//at.alicdn.com/t/font_2007537_eese0nxlmsu.eot');
+  src: url('//at.alicdn.com/t/font_2007537_eese0nxlmsu.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_2007537_eese0nxlmsu.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_2007537_eese0nxlmsu.woff') format('woff'),
+  url('//at.alicdn.com/t/font_2007537_eese0nxlmsu.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_2007537_eese0nxlmsu.svg#iconfont') format('svg');
+}
+.iconfont{
+	font-family: iconfont;
+	font-size: 22rpx;
+}
+.l-head,
+.content{
+	position: relative;
+}
+.clear{
+	color: #bfbfbf;
+}
+.l-search-back{
+	font-size: 40rpx;
+	margin-right: 30rpx;
+	font-weight: bold;
+}
+.l-search-hot,
+.l-search-history{
+	margin-top: 60rpx;
+	padding-left: 40rpx;
+}
+.l-search-hot-value,
+.l-search-history-value{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	        flex-wrap: wrap;
+}
+.l-search-hot-value>view,
+.l-search-history-value>view{
+	margin:20rpx 30rpx 0 0;
+	background-color: #f0f0f0;
+	padding: 10rpx 20rpx;
+	border-radius: 40rpx;
+	font-size: 20rpx;
+}
+.l-search-history-outer{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	padding-right: 40rpx;
+}
+.l-search-content{
+	position: fixed;
+	width: 100%;
+	height: 10000%;
+	top: 0;
+	background-color: #FFFFFF;
+}
+.l-search-content .l-search-item{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	padding: 0 10rpx;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	border-bottom: 1px solid #DCDCDC;
+	width: 90%;
+	margin: 10rpx auto;
+}
+.l-search-content .l-search-item>view{
+	height: 80rpx;
+	line-height: 80rpx;
+}
+.l-search-result{
+	position: absolute;
+	top: 180rpx;
+	width: 100%;
+	height: 10000%;
+	z-index: 1;
+	background-color: #FFFFFF;
+}
+.l-search-result>view{
+	padding-left: 10rpx;
+	line-height: 80rpx;
+	border-bottom: 1rpx solid #dcdcdc;
+}
+.l-nav-bookrack {
+	font-size: 26rpx;
+	background: 0;
+	font-weight: 500;
+	color: #555555;
+}
+.l-list-sub-content{
+	line-height: 55rpx;
+}
+.back{
+	width: 40rpx;
+	height: 40rpx;
+}
+

@@ -6,7 +6,7 @@
 		<!-- 网页背景结束 -->
 		<!-- 带返回键的导航栏开始 -->
 		<view class="l-top-area anmt" :style = "{ color: fontColor, backgroundColor: menuBg,top : show ? '0' : '-100%' }">
-			<view :style="{ height: statusBarHeight }"></view>
+			<!-- <view :style="{ height: statusBarHeight }"></view> -->
 			<view class="l-top-content">
 				<image src="../../static/back.svg" class="l-top-back" @click="back()"></image>
 				<text>{{section_title}}</text>
@@ -15,49 +15,54 @@
 		<!-- 带返回键的导航栏结束 -->
 		<!-- 菜单开始 -->
 		<view class="l-bottom-area anmt" :style="{ color: fontColor, backgroundColor: menuBg, bottom: show ? '0' : '-100%'} ">
-			<view class="l-bottom-setting1">
-				<view class="l-bottom-flex">
-					<view class="l-bottom-flex-name">字体</view>
-					<view class="l-bottom-flex-line">
-						<slider :value="size" min="20" max="100" @changing="changeFontSize" @change="changeFontSize"
-						 :activeColor="fontColor" :backgroundColor="lineBg" :block-color="fontColor" block-size="16" />
+			<view v-if="showSetting">
+				<view class="l-bottom-setting1">
+					<view class="l-bottom-flex">
+						<view class="l-bottom-flex-name">字体</view>
+						<view class="l-bottom-flex-line">
+							<slider :value="size" min="20" max="100" @changing="changeFontSize" @change="changeFontSize"
+							 :activeColor="fontColor" :backgroundColor="lineBg" :block-color="fontColor" block-size="16" />
+						</view>
+					</view>
+					<view class="l-bottom-flex">
+						<view class="l-bottom-flex-name">间距</view>
+						<view class="l-bottom-flex-line">
+							<slider :value="lineHeight" min="50" max="150" @changing="changeLineHeight" @change="changeLineHeight"
+							 :activeColor="fontColor" :backgroundColor="lineBg" :block-color="fontColor" block-size="16" />
+						</view>
 					</view>
 				</view>
-				<view class="l-bottom-flex">
-					<view class="l-bottom-flex-name">间距</view>
-					<view class="l-bottom-flex-line">
-						<slider :value="lineHeight" min="50" max="150" @changing="changeLineHeight" @change="changeLineHeight"
-						 :activeColor="fontColor" :backgroundColor="lineBg" :block-color="fontColor" block-size="16" />
+				<view class="l-bottom-setting2">
+					<view class="l-bottom-left">背景</view>
+					<view class="l-bottom-right">
+						<view class="l-bottom-color" v-for="(item,index) in themes" @tap="changeTheme(index)" :key="item.name" 
+						:style="{ backgroundColor : item.pageBg, borderColor : thisTheme == index ? item.fontColor : 'rgba(0,0,0,0)'}"
+						 v-if="index != 1 && index != 2">
+						 </view>
 					</view>
-				</view>
-			</view>
-			<view class="l-bottom-setting2">
-				<view class="l-bottom-left">背景</view>
-				<view class="l-bottom-right">
-					<view class="l-bottom-color" v-for="(item,index) in themes" @tap="changeTheme(index)" :key="item.name" 
-					:style="{ backgroundColor : item.pageBg, borderColor : thisTheme == index ? item.fontColor : 'rgba(0,0,0,0)'}"
-					 v-if="index != 1 && index != 2">
-					 </view>
 				</view>
 			</view>
 			<view class="l-bottom-setting3">
 				<view @click="getMenu()">
-					<view><text class="iconfont">&#xe6ae;</text></view>
-					<view>目录</view>
+					<view><text class="iconfont">&#xe608;</text></view>
+					<!-- <view>目录</view> -->
 				</view>
 				<view @click="changeTheme(thisTheme == 1 ? 0 : 1)">
-					<view><text class="iconfont">{{ thisTheme == 1 ? '&#xe7ed;' : '&#xe70f;' }}</text></view>
-					<view>{{thisTheme==1?'白天':'夜间'}}</view>
+					<view><text class="iconfont">{{ thisTheme == 1 ? '&#xe6ee;' : '&#xe6a0;' }}</text></view>
+					<!-- <view>{{thisTheme==1?'白天':'夜间'}}</view> -->
 				</view>
-				<view @click="changeTheme(thisTheme == 2 ? 0 : 2)" :style="thisTheme == 2 ? 'color:green' : ''">
-					<view><text class="iconfont">&#xe763;</text></view>
+				<view @click="toggleSetting()">
+					<view><text class="iconfont">&#xe654;</text></view>
+				</view>
+				<!-- <view @click="changeTheme(thisTheme == 2 ? 0 : 2)" :style="thisTheme == 2 ? 'color:green' : ''">
+					<view><text class="iconfont">&#xe654;</text></view>
 					<view>护眼</view>
-				</view>
+				</view> -->
 			</view>
 		</view>
 		<!-- 菜单结束 -->
 		<!-- 顶部开始 -->
-		<view class="anmt" :style="{color:fontColor,lineHeight:statusBarHeight,backgroundColor:show?menuBg:pageBg,position:'fixed',top:'0',left:'0',zIndex:'6',width:'100%',fontSize:'3vw',zIndex:'20'}">
+		<!-- <view class="anmt" :style="{color:fontColor,lineHeight:statusBarHeight,backgroundColor:show?menuBg:pageBg,position:'fixed',top:'0',left:'0',zIndex:'6',width:'100%',fontSize:'3vw',zIndex:'20'}"> -->
 			<!-- 时间电量开始 -->
 			<!-- <view :style="{height:statusBarHeight,padding: '0 5vw'}">
 				<view style="float: left;letter-spacing:0">
@@ -73,15 +78,15 @@
 			</view> -->
 			<!-- 时间电量结束 -->
 			<!-- 书名章节开始 -->
-			<view style="height: 40rpx;line-height: 40rpx;padding: 0 5vw;">
+			<!-- <view style="height: 40rpx;line-height: 40rpx;padding: 0 5vw;">
 				<view style="float: left;width: 300rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;" v-text="shuming"></view>
 				<view v-text="section_title" style="float: right;width: 300rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;text-align: right;"></view>
-			</view>
+			</view> -->
 			<!-- 书名章节结束 -->
-		</view>
+		<!-- </view> -->
 		<!-- 顶部结束 -->
 		<!-- 小说正文开始 -->
-		<view class="sview" :style="{paddingTop:'calc('+statusBarHeight+' + 80px)',color:textColor,fontSize:size+'rpx',lineHeight:lineHeight+'rpx'}">
+		<view class="sview" :style="{ paddingTop : 'calc('+statusBarHeight+' + 110rpx)', color : textColor, fontSize : size + 'rpx', lineHeight : lineHeight + 'rpx'}">
 			<rich-text :nodes="content_text"></rich-text>
 		</view>
 		<!-- <button @click="scrolltolower" style="margin: 20px;">下一章</button> -->
@@ -101,10 +106,10 @@
 				thisTheme: 0, //当前主题
 				themes: theme.data, //主题列表
 				fontColor: 'rgb(100,103,120)', //菜单字体颜色
-				pageBg: 'rgb(247, 201, 143)', //页面背景色
+				pageBg: 'rgb(252, 216, 142)', //页面背景色
 				lineBg: '#333', //滑动线条颜色
 				menuBg: '#fff', //菜单背景色
-				textColor: '#000', //富文本文字颜色
+				textColor: '#333', //富文本文字颜色
 				statusBarHeight: '',
 				Dindex: '', //当前章节索引
 				shuming: '', //书名
@@ -117,6 +122,7 @@
 				windowHeight: 0,
 				scroll_top: 0,
 				type: '', //翻页方式
+				showSetting: false,
 
 			}
 		},
@@ -192,6 +198,7 @@
 				})
 			},
 			getText(param) {
+				console.log(param.url)
 				const cheerio = require('cheerio')
 				var this_ = this
 				this.getHtml({
@@ -246,6 +253,7 @@
 			},
 			clickArea() {
 				this.show = !this.show;
+				this.showSetting = !this.show ? false : this.showSetting
 			},
 			//切换主题
 			changeTheme(e) {
@@ -255,6 +263,9 @@
 				this.textColor = theme.data[e].textColor; //富文本文字颜色
 				uni.setStorageSync('theme', e);
 				this.thisTheme = e;
+			},
+			toggleSetting(){
+				this.showSetting = !this.showSetting;
 			},
 			//获取系统电量
 			dianliang() {
@@ -300,12 +311,12 @@
 <style>
 	@font-face {
 	  font-family: 'iconfont';  /* project id 2007537 */
-	  src: url('//at.alicdn.com/t/font_2007537_cxvcumhe5o.eot');
-	  src: url('//at.alicdn.com/t/font_2007537_cxvcumhe5o.eot?#iefix') format('embedded-opentype'),
-	  url('//at.alicdn.com/t/font_2007537_cxvcumhe5o.woff2') format('woff2'),
-	  url('//at.alicdn.com/t/font_2007537_cxvcumhe5o.woff') format('woff'),
-	  url('//at.alicdn.com/t/font_2007537_cxvcumhe5o.ttf') format('truetype'),
-	  url('//at.alicdn.com/t/font_2007537_cxvcumhe5o.svg#iconfont') format('svg');
+	  src: url('//at.alicdn.com/t/font_2007537_wmvi1n1b66k.eot');
+	  src: url('//at.alicdn.com/t/font_2007537_wmvi1n1b66k.eot?#iefix') format('embedded-opentype'),
+	  url('//at.alicdn.com/t/font_2007537_wmvi1n1b66k.woff2') format('woff2'),
+	  url('//at.alicdn.com/t/font_2007537_wmvi1n1b66k.woff') format('woff'),
+	  url('//at.alicdn.com/t/font_2007537_wmvi1n1b66k.ttf') format('truetype'),
+	  url('//at.alicdn.com/t/font_2007537_wmvi1n1b66k.svg#iconfont') format('svg');
 	}
 	
 	.l-page-bg {
@@ -391,7 +402,7 @@
 	.l-top-content {
 		display: flex;
 		align-items: center;
-		margin-top:40rpx;
+		/* margin-top:40rpx; */
 		height: 100rpx;
 		line-height: 100rpx;
 		text-overflow: ellipsis;
@@ -411,7 +422,7 @@
 	}
 
 	.l-bottom-area {
-		padding: 0 0 20rpx 0;
+		padding: 20rpx 0 30rpx;
 		position: fixed;
 		bottom: 0;
 		left: 0;

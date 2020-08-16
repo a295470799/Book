@@ -36,8 +36,8 @@
 			</view>
 			<view class="l-list">
 				<view class="l-h3">
-					<text class="l-h3-title">列表</text>
-					<view class="" @click="orderZhangjie">
+					<text class="l-h3-title">章节</text>
+					<view class="" @click="orderChapter">
 						<view class="l-h3-more" >{{ asc ? '倒序' : '正序' }}
 						</view>
 					</view>
@@ -45,7 +45,7 @@
 				<view class="l-list-content">
 					<view class="l-list-sub-content">
 						<scroll-view scroll-y style="height:100%">
-							<view v-for="(item,index) in zhangjie"  @tap="navtoSection(item)" > {{item.name}} </view>
+							<view v-for="(item,index) in chapter" :key="index"  @tap="navtoSection(item)"> {{item.name}} </view>
 						</scroll-view>
 					</view>
 				</view>
@@ -76,18 +76,17 @@
 		data() {
 			return {
 				book:{},
-				zhangjie:[],
+				chapter:[],
 				url:'',
 				pageHeight:0,
 				asc: true,
 			}
 		},
 		onLoad(param) {
-			this.book.image = param.image
 			this.url = param.url
-			uni.setNavigationBarTitle({
-				title: param.name
-			})
+			// uni.setNavigationBarTitle({
+			// 	title: param.name
+			// })
 			
 			const cheerio = require('cheerio')
 			var this_ = this
@@ -102,12 +101,13 @@
 						update: $('#maininfo').find('p').eq(2).text(),
 						newName: '最新章节：' + $('#info').find('p').eq(3).find('a').text(),
 						// 最新章节
-						newUrl: param.url + $('#info').find('p').eq(3).find('a').attr('href'),
+						newUrl: this_.$bookUrl + $('#info').find('p').eq(3).find('a').attr('href'),
+						image: $("#fmimg").find("img").attr('src'),
 					}
 					$('#list').find('dd').each(function(i, elem) {
-						this_.zhangjie.push({
+						this_.chapter.push({
 							name: $(this).find('a').text(),
-							url: param.url + $(this).find('a').attr('href')
+							url: this_.$bookUrl + $(this).find('a').attr('href')
 						})
 					}),
 					//this_.book.list = this_.zhangjie;
@@ -131,22 +131,15 @@
 					url: `/pages/section/section?url=` + data.url + "&title=" + data.name
 				})
 			},
-			orderZhangjie(){
+			orderChapter(){
 				this.asc = !this.asc
 				this.zhangjie.reverse()
-			},
-			back(){
-				uni.navigateBack({});
 			},
 		}
 	}
 </script>
 
 <style>
-	.content {
-		padding-bottom: 108rpx;
-	}
-	
 	.l-list-sub-content{
 		line-height: 55rpx;
 	}

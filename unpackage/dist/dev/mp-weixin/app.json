@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/classify/classify",
+    "pages/search/search",
     "pages/comment/comment",
     "pages/section/section",
     "pages/detail/detail",
@@ -11,10 +12,10 @@
   ],
   "subPackages": [],
   "window": {
-    "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "阅读书城",
-    "navigationBarBackgroundColor": "#ffffff",
-    "backgroundColor": "#ffffff"
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#FFFFFF"
   },
   "tabBar": {
     "color": "#383838",
@@ -42,6 +43,8 @@
       }
     ]
   },
+  "darkmode": true,
+  "themeLocation": "theme.json",
   "usingComponents": {},
-  "sitemapLocation": "sitemap23.json"
+  "sitemapLocation": "sitemap94.json"
 }

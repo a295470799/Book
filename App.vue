@@ -37,7 +37,7 @@
 		--c-bg-1:#FFFFFF;
 		--c-bg-2:#7E7F94;
 		--c-bg-3:#0b0c21;
-		--c-bg-4:#f0f0f0;
+		--c-bg-4:#f3f3f3;
 		
 		/* padding-left | right */
 		--pad-lr:32rpx;
@@ -136,7 +136,7 @@
 		width: 100%;
 		height: 76rpx;
 		margin-right: 16rpx;
-		border-radius: 32rpx;
+		border-radius: 60rpx;
 		background-color: var(--c-bg-4);
 	}
 	

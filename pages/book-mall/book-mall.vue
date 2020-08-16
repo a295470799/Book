@@ -3,30 +3,12 @@
 		<!-- l-head -->
 
 		<view class="l-head">
-			<view class="l-search" @tap="$toast(`搜索`)">
+			<view class="l-search" @tap="navtoSearch">
 				<image class="l-icon-search" src="../../static/l-icon-search.png" mode=""></image>
-				<input type="text" class="l-search-input" disabled="" value="" placeholder="精彩热搜：金光布袋戏《羽国志异》" placeholder-class="l-holder" />
+				<input type="text" class="l-search-input" disabled="" value="" placeholder="" placeholder-class="l-holder" />
 			</view>
 		</view>
-
-		<view class="l-body">
-
-			<!-- l-swiper -->
-
-			<swiper class="l-swiper" :indicator-dots="true" :autoplay="true" :interval="3000" :duration="500" indicator-color="var(--c-bg-2)"
-			 indicator-active-color="#41bdb2" circular @tap="$toast(`轮播图`)">
-				<swiper-item>
-					<view class="l-swiper-item">
-						<image class="l-carousel-img" :src="img" mode="aspectFill"></image>
-					</view>
-				</swiper-item>
-				<swiper-item>
-					<view class="l-swiper-item">
-						<image class="l-carousel-img" :src="img" mode="aspectFill"></image>
-					</view>
-				</swiper-item>
-			</swiper>
-		</view>
+		
 		<view class="l-view l-view-not-border">
 			<view class="l-h3">
 				<text class="l-h3-title">全部分类</text>
@@ -81,6 +63,11 @@
 			navtoDetail() {
 				uni.navigateTo({
 					url: `/pages/detail/detail`
+				})
+			},
+			navtoSearch(){
+				uni.navigateTo({
+					url: `/pages/search/search`
 				})
 			}
 		}
