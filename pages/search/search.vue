@@ -121,7 +121,7 @@
 			searchKey(item){
 				var this_ = this
 				const cheerio = require('cheerio')
-				this.getHtml({
+				this.getReuest({
 					url: this_.$bookUrl + '/modules/article/waps.php?searchkey=' + item,
 					success: function(res){
 						let list = [];

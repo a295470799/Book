@@ -13,28 +13,10 @@ Vue.prototype.$toast = function(title){
 }
 
 
-Vue.prototype.getHtml = function(param){
-	uni.showLoading();
-	uni.request({
-	    url: param.url,
-		sslVerify: false,
-	    success: res => {
-			typeof param.success == "function" && param.success(res.data);
-	    },
-	    fail: (e) => {
-	        typeof param.fail == "function" && param.fail(e);
-	    }, 
-	    complete: () => {
-			uni.hideLoading();
-			typeof param.complete == "function" && param.complete();
-		}
-	});
-}
-
 Vue.prototype.getRequest = function(param){
+	param.loading && uni.showLoading();
 	uni.request({
 	    url: param.url,
-		type: param.type,
 		sslVerify: false,
 	    success: res => {
 			typeof param.success == "function" && param.success(res.data);
@@ -43,11 +25,11 @@ Vue.prototype.getRequest = function(param){
 	        typeof param.fail == "function" && param.fail(e);
 	    }, 
 	    complete: () => {
+			param.loading && uni.hideLoading();
 			typeof param.complete == "function" && param.complete();
 		}
 	});
 }
-
 
 // Vue.prototype.$bookUrl = 'http://www.biquge.info'
 Vue.prototype.$bookUrl = 'http://www.xbiquge.la'

@@ -54,16 +54,6 @@
 				"app-plus":{}
 			}
 		},
-		
-		// {
-		// 	"path": "pages/idea/idea",
-		// 	"style": {
-		// 		"navigationBarTitleText": "想法",
-		// 		"app-plus":{
-		// 			"titleNView":false
-		// 		}
-		// 	}
-		// },
 		{
 			"path": "pages/bookrack/bookrack",
 			"style": {
@@ -105,12 +95,6 @@
 			"selectedIconPath": "static/tabbar/bar4.png",
 			"text": "书架"
 		},
-		// {
-		// 	"pagePath": "pages/idea/idea",
-		// 	"iconPath": "static/tabbar/l-tabbar-3.png",
-		// 	"selectedIconPath": "static/logo.png",
-		// 	"text": "想法"
-		// },
 		{
 			"pagePath": "pages/mine/mine",
 			"iconPath": "static/tabbar/bar5.png",
