@@ -13,34 +13,29 @@
 			<view class="l-h3">
 				<text class="l-h3-title">列表</text>
 			</view>
-			<view class="l-dl-view" v-for="(s,i) in books" :key="i" @tap="navtoDetail(s)">
-				<view class="l-dl-bg"></view>
-				<view class="l-dl-content">
-					<image class="l-dt-view" :src="s.image" mode="aspectFill"></image>
-					<view class="l-dd-view">
-						<view class="l-dd-view-content">
-							<view class="l-dd-view-title">
-								<view class="l-dd-view-ta">
-									{{s.name}}
-								</view>
-								<view class="l-dd-view-tb">
-									{{s.user}}
-								</view>
-							</view>
-							<image class="l-icon-dot" src="../../static/l-icon-dot.png" mode="widthFix"></image>
-						</view>
-						<view class="l-dd-view-footer">
-							{{s.desc}}
-						</view>
+			<view class="l-dl" v-for="(item,index) in bookList" :key="index" @tap="navtoDetail(item)">
+				<image class="l-dt" :src="item.image" mode="aspectFill"></image>
+				<view class="l-dd">
+					<view class="l-dd-title">
+						{{item.name}}
+					</view>
+					<view class="l-dd-content">
+						{{item.desc}}
+					</view>
+					<view class="l-dd-footer">
+						{{item.user}}
 					</view>
 				</view>
 			</view>
+			
 			<button @click="getboos(nextPage)"> 加载下一页</button>
 		</view>
 	</view>
 </template>
 
 <script>
+	import { getDetail } from '@/common/bookDetail.js';
+	
 	export default {
 		data() {
 			return {
@@ -48,7 +43,7 @@
 				img: `../../static/152b74dd6eb4c583fd8921a3f634b5dc.jpg`,
 				bookimg: `../../static/152b74dd6eb4c583fd8921a3f634b5dc.jpg`,
 				cover: `../../static/152b74dd6eb4c583fd8921a3f634b5dc.jpg`,
-				books:[],
+				bookList:[],
 				nextPage:{},
 			}
 		},
@@ -56,24 +51,39 @@
 			this.getboos(param)
 		},
 		methods: {
+			getDetail(url, arr){
+				getDetail(url).then((res) => {
+					arr.desc = res.desc;
+					arr.image = res.image;
+					// console.log(res);
+				})
+			},
 			getboos(param){
 				const cheerio = require('cheerio')
-				var this_ = this
-				this.getHtml({
+				var _this = this
+				this.getRequest({
 					url: param.url,
-					success: function(res){
+					success: res => {
 						var list = [];
 						const $ = cheerio.load(res)
-						$('#BookList').find('li').each(function(i,w){
-							this_.books.push({
-								name: $(this).find('strong a').text(),
-								url: this_.$bookUrl +  $(this).find('strong a').attr('href'),
-								user: $(this).find('.name span').eq(1).text(),
-								desc: $(this).find('p').text(),
-								image: $(this).find('img').attr('src')
+						$('#newscontent').find('li').each(function(i,w){
+							list.push({
+								name: $(this).find('.s2 a').text(),
+								url: $(this).find('.s2 a').attr('href'),
+								user: $(this).find('.s5').text(),
+								desc: '加载中...',
+								image: '../../static/classify/l-img-classify-1.png',
 							})
 						})
-						this_.nextPage = {url: this_.$bookUrl +  $('#pagelink .next').attr('href')}
+						
+						list.forEach((i, w)=>{
+							setTimeout(()=>{
+								this.getDetail(i.url, list[w])
+							}, 600 * w)
+						})
+						this.bookList = list;
+						
+						_this.nextPage = {url: $('#pagelink .next').attr('href')}
 					}
 				})
 			},
@@ -252,15 +262,14 @@
 	}
 
 	.l-dt-view {
-		width: 168rpx;
-		height: 250rpx;
+		width: 200rpx;
+		height: 266rpx;
 		border-radius: 10rpx;
 		margin-right: 30rpx;
 	}
 
 	.l-dd-view {
 		width: calc(100% - 198rpx);
-		padding: 62rpx 0 14rpx;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;

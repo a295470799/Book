@@ -24,14 +24,9 @@
 
 			<swiper class="l-swiper" :indicator-dots="true" :autoplay="true" :interval="3000" :duration="500" indicator-color="var(--c-bg-2)"
 			 indicator-active-color="#1a99de" circular @click="$toast(`轮播图`)">
-				<swiper-item>
+				<swiper-item v-for="(item, index) in imgList" :key="index">
 					<view class="l-swiper-item">
-						<image class="l-carousel-img" :src="img" mode="aspectFill"></image>
-					</view>
-				</swiper-item>
-				<swiper-item>
-					<view class="l-swiper-item">
-						<image class="l-carousel-img" :src="img" mode="aspectFill"></image>
+						<image class="l-carousel-img" :src="item" mode="aspectFill"></image>
 					</view>
 				</swiper-item>
 			</swiper>
@@ -68,7 +63,7 @@
 		data() {
 			return {
 				title: 'Hello',
-				img: `../../static/152b74dd6eb4c583fd8921a3f634b5dc.jpg`,
+				imgList: [`../../static/152b74dd6eb4c583fd8921a3f634b5dc.jpg`, `../../static/56970b801c5a69c05cb8dca97a5ebdcc.jpg`],
 				bookList:[],
 			}
 		},
@@ -92,10 +87,9 @@
 		},
 		onLoad() {
 			const cheerio = require('cheerio')
-			var this_ = this
-			this.getHtml({
-				url: this_.$bookUrl,
-				success: function(res){
+			this.getRequest({
+				url: this.$bookUrl,
+				success: res => {
 					var list = [];
 					const $ = cheerio.load(res)
 					var data = $('#hotcontent .item');
@@ -108,17 +102,7 @@
 						image: $(this).find('img').attr('src'),
 					   })
 					});
-					this_.bookList = list
-					var tyes = []
-					$(".nav").find('li').each(function(e,w){
-						if(e != 0 && tyes.length < 8){
-							tyes.push({
-								name: $(this).find('a').text(),
-								url: $(this).find('a').attr('href')
-							})
-						}
-					})
-					uni.setStorage('types',tyes)
+					this.bookList = list
 				}
 			})
 			

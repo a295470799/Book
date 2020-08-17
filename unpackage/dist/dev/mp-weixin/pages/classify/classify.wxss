@@ -87,6 +87,16 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 /* l-body-tab */
 .l-body-tab {
 	display: -webkit-box;
@@ -256,14 +266,13 @@
 	padding: 0 48rpx;
 }
 .l-dt-view {
-	width: 168rpx;
-	height: 250rpx;
+	width: 200rpx;
+	height: 266rpx;
 	border-radius: 10rpx;
 	margin-right: 30rpx;
 }
 .l-dd-view {
 	width: calc(100% - 198rpx);
-	padding: 62rpx 0 14rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;

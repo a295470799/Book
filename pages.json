@@ -19,9 +19,8 @@
 		{
 			"path": "pages/search/search",
 			"style": {
-				"app-plus":{
-					"titleNView":false
-				}
+				"navigationBarTitleText": "搜索",
+				"app-plus":{}
 			}
 		},
 		{
@@ -75,7 +74,7 @@
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "",
+		"navigationBarTitleText": " ",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#FFFFFF"
 	},

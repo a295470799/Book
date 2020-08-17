@@ -90,7 +90,7 @@
 			
 			const cheerio = require('cheerio')
 			var this_ = this
-			this.getHtml({
+			this.getRequest({
 				url: param.url,
 				success: function(res){
 					const $ = cheerio.load(res)

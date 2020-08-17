@@ -760,7 +760,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -7122,7 +7122,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -7143,14 +7143,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -7235,7 +7235,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -7672,9 +7672,9 @@ module.exports = g;
 
 /***/ }),
 /* 4 */
-/*!***************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/pages.json ***!
-  \***************************************************************/
+/*!**************************!*\
+  !*** E:/Book/pages.json ***!
+  \**************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -7821,9 +7821,9 @@ function normalizeComponent (
 /* 15 */,
 /* 16 */,
 /* 17 */
-/*!**********************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/cheerio/index.js ***!
-  \**********************************************************************************/
+/*!*********************************************!*\
+  !*** E:/Book/node_modules/cheerio/index.js ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7841,9 +7841,9 @@ exports.version = __webpack_require__(/*! ./package.json */ 345).version;
 
 /***/ }),
 /* 18 */
-/*!****************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/cheerio/lib/cheerio.js ***!
-  \****************************************************************************************/
+/*!***************************************************!*\
+  !*** E:/Book/node_modules/cheerio/lib/cheerio.js ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7989,9 +7989,9 @@ var isNode = function isNode(obj) {
 
 /***/ }),
 /* 19 */
-/*!**************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/cheerio/lib/parse.js ***!
-  \**************************************************************************************/
+/*!*************************************************!*\
+  !*** E:/Book/node_modules/cheerio/lib/parse.js ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14169,9 +14169,9 @@ CollectingHandler.prototype.restart = function() {
 
 /***/ }),
 /* 58 */
-/*!*************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/index.js ***!
-  \*************************************************************************************/
+/*!************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/index.js ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14223,9 +14223,9 @@ exports.SAXParser = __webpack_require__(/*! ./sax */ 104);
 
 /***/ }),
 /* 59 */
-/*!********************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/parser/index.js ***!
-  \********************************************************************************************/
+/*!*******************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/parser/index.js ***!
+  \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17052,9 +17052,9 @@ function endTagInForeignContent(p, token) {
 
 /***/ }),
 /* 60 */
-/*!***********************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/tokenizer/index.js ***!
-  \***********************************************************************************************/
+/*!**********************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/tokenizer/index.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19206,9 +19206,9 @@ _[CDATA_SECTION_STATE] = function cdataSectionState(cp) {
 
 /***/ }),
 /* 61 */
-/*!******************************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/tokenizer/preprocessor.js ***!
-  \******************************************************************************************************/
+/*!*****************************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/tokenizer/preprocessor.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19362,9 +19362,9 @@ Preprocessor.prototype.retreat = function () {
 
 /***/ }),
 /* 62 */
-/*!**********************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/common/unicode.js ***!
-  \**********************************************************************************************/
+/*!*********************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/common/unicode.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19419,9 +19419,9 @@ exports.CODE_POINT_SEQUENCES = {
 
 /***/ }),
 /* 63 */
-/*!***********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/tokenizer/named_entity_data.js ***!
-  \***********************************************************************************************************/
+/*!**********************************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/tokenizer/named_entity_data.js ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19434,9 +19434,9 @@ module.exports = new Uint16Array([4, 52, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74,
 
 /***/ }),
 /* 64 */
-/*!*********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/parser/open_element_stack.js ***!
-  \*********************************************************************************************************/
+/*!********************************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/parser/open_element_stack.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19839,9 +19839,9 @@ OpenElementStack.prototype.generateImpliedEndTagsWithExclusion = function (exclu
 
 /***/ }),
 /* 65 */
-/*!*******************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/common/html.js ***!
-  \*******************************************************************************************/
+/*!******************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/common/html.js ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20121,9 +20121,9 @@ SPECIAL_ELEMENTS[NS.SVG][$.DESC] = true;
 
 /***/ }),
 /* 66 */
-/*!**************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/parser/formatting_element_list.js ***!
-  \**************************************************************************************************************/
+/*!*************************************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/parser/formatting_element_list.js ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20298,9 +20298,9 @@ FormattingElementList.prototype.getElementEntry = function (element) {
 
 /***/ }),
 /* 67 */
-/*!*********************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/extensions/location_info/parser_mixin.js ***!
-  \*********************************************************************************************************************/
+/*!********************************************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/extensions/location_info/parser_mixin.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20520,9 +20520,9 @@ LocationInfoParserMixin.prototype._getOverriddenMethods = function (mxn, orig) {
 
 /***/ }),
 /* 68 */
-/*!*******************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/utils/mixin.js ***!
-  \*******************************************************************************************/
+/*!******************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/utils/mixin.js ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20547,9 +20547,9 @@ Mixin.prototype._getOverriddenMethods = function () {
 
 /***/ }),
 /* 69 */
-/*!************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/extensions/location_info/tokenizer_mixin.js ***!
-  \************************************************************************************************************************/
+/*!***********************************************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/extensions/location_info/tokenizer_mixin.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20673,9 +20673,9 @@ LocationInfoTokenizerMixin.prototype._getOverriddenMethods = function (mxn, orig
 
 /***/ }),
 /* 70 */
-/*!*******************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/extensions/position_tracking/preprocessor_mixin.js ***!
-  \*******************************************************************************************************************************/
+/*!******************************************************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/extensions/position_tracking/preprocessor_mixin.js ***!
+  \******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20870,7 +20870,7 @@ var debugs = {};
 var debugEnviron;
 exports.debuglog = function(set) {
   if (isUndefined(debugEnviron))
-    debugEnviron = Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).NODE_DEBUG || '';
+    debugEnviron = Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).NODE_DEBUG || '';
   set = set.toUpperCase();
   if (!debugs[set]) {
     if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
@@ -21841,9 +21841,9 @@ module.exports = function isBuffer(arg) {
 
 /***/ }),
 /* 75 */
-/*!*********************************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/extensions/location_info/open_element_stack_mixin.js ***!
-  \*********************************************************************************************************************************/
+/*!********************************************************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/extensions/location_info/open_element_stack_mixin.js ***!
+  \********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -21884,9 +21884,9 @@ LocationInfoOpenElementStackMixin.prototype._getOverriddenMethods = function (mx
 
 /***/ }),
 /* 76 */
-/*!*****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/tree_adapters/default.js ***!
-  \*****************************************************************************************************/
+/*!****************************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/tree_adapters/default.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22103,9 +22103,9 @@ exports.isElementNode = function (node) {
 
 /***/ }),
 /* 77 */
-/*!***************************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/utils/merge_options.js ***!
-  \***************************************************************************************************/
+/*!**************************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/utils/merge_options.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22126,9 +22126,9 @@ module.exports = function mergeOptions(defaults, options) {
 
 /***/ }),
 /* 78 */
-/*!**********************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/common/doctype.js ***!
-  \**********************************************************************************************/
+/*!*********************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/common/doctype.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22292,9 +22292,9 @@ exports.serializeContent = function (name, publicId, systemId) {
 
 /***/ }),
 /* 79 */
-/*!******************************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/common/foreign_content.js ***!
-  \******************************************************************************************************/
+/*!*****************************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/common/foreign_content.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22562,9 +22562,9 @@ exports.isIntegrationPoint = function (tn, ns, attrs, foreignNS) {
 
 /***/ }),
 /* 80 */
-/*!************************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/serializer/index.js ***!
-  \************************************************************************************************/
+/*!***********************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/serializer/index.js ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22734,9 +22734,9 @@ Serializer.prototype._serializeDocumentTypeNode = function (node) {
 
 /***/ }),
 /* 81 */
-/*!*********************************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/tree_adapters/htmlparser2.js ***!
-  \*********************************************************************************************************/
+/*!********************************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/tree_adapters/htmlparser2.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23082,9 +23082,9 @@ exports.isElementNode = function (node) {
 
 /***/ }),
 /* 82 */
-/*!****************************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/parser/parser_stream.js ***!
-  \****************************************************************************************************/
+/*!***************************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/parser/parser_stream.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25972,9 +25972,9 @@ module.exports = __webpack_require__(/*! ./readable */ 84).PassThrough
 
 /***/ }),
 /* 102 */
-/*!*******************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/parser/plain_text_conversion_stream.js ***!
-  \*******************************************************************************************************************/
+/*!******************************************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/parser/plain_text_conversion_stream.js ***!
+  \******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26002,9 +26002,9 @@ inherits(PlainTextConversionStream, ParserStream);
 
 /***/ }),
 /* 103 */
-/*!************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/serializer/serializer_stream.js ***!
-  \************************************************************************************************************/
+/*!***********************************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/serializer/serializer_stream.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26040,9 +26040,9 @@ SerializerStream.prototype._read = function () {
 
 /***/ }),
 /* 104 */
-/*!*****************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/sax/index.js ***!
-  \*****************************************************************************************/
+/*!****************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/sax/index.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26168,9 +26168,9 @@ SAXParser.prototype._emitPendingText = function () {
 
 /***/ }),
 /* 105 */
-/*!***************************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/sax/dev_null_stream.js ***!
-  \***************************************************************************************************/
+/*!**************************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/sax/dev_null_stream.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26192,9 +26192,9 @@ DevNullStream.prototype._write = function (chunk, encoding, cb) {
 
 /***/ }),
 /* 106 */
-/*!*************************************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/parse5/lib/sax/parser_feedback_simulator.js ***!
-  \*************************************************************************************************************/
+/*!************************************************************************!*\
+  !*** E:/Book/node_modules/parse5/lib/sax/parser_feedback_simulator.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26355,9 +26355,9 @@ ParserFeedbackSimulator.prototype._handleEndTagToken = function (token) {
 
 /***/ }),
 /* 107 */
-/*!****************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/cheerio/lib/options.js ***!
-  \****************************************************************************************/
+/*!***************************************************!*\
+  !*** E:/Book/node_modules/cheerio/lib/options.js ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28251,9 +28251,9 @@ module.exports = overArg;
 
 /***/ }),
 /* 159 */
-/*!**************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/cheerio/lib/utils.js ***!
-  \**************************************************************************************/
+/*!*************************************************!*\
+  !*** E:/Book/node_modules/cheerio/lib/utils.js ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -30813,9 +30813,9 @@ module.exports = defaults;
 
 /***/ }),
 /* 217 */
-/*!***********************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/cheerio/lib/api/attributes.js ***!
-  \***********************************************************************************************/
+/*!**********************************************************!*\
+  !*** E:/Book/node_modules/cheerio/lib/api/attributes.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31314,9 +31314,9 @@ exports.is = function (selector) {
 
 /***/ }),
 /* 218 */
-/*!***************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/cheerio/lib/static.js ***!
-  \***************************************************************************************/
+/*!**************************************************!*\
+  !*** E:/Book/node_modules/cheerio/lib/static.js ***!
+  \**************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -36704,9 +36704,9 @@ module.exports = baseSome;
 
 /***/ }),
 /* 324 */
-/*!***********************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/cheerio/lib/api/traversing.js ***!
-  \***********************************************************************************************/
+/*!**********************************************************!*\
+  !*** E:/Book/node_modules/cheerio/lib/api/traversing.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -37467,9 +37467,9 @@ module.exports = baseReduce;
 
 /***/ }),
 /* 332 */
-/*!*************************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/cheerio/lib/api/manipulation.js ***!
-  \*************************************************************************************************/
+/*!************************************************************!*\
+  !*** E:/Book/node_modules/cheerio/lib/api/manipulation.js ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -38028,9 +38028,9 @@ module.exports = isFlattenable;
 
 /***/ }),
 /* 336 */
-/*!****************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/cheerio/lib/api/css.js ***!
-  \****************************************************************************************/
+/*!***************************************************!*\
+  !*** E:/Book/node_modules/cheerio/lib/api/css.js ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -38345,9 +38345,9 @@ module.exports = flatRest;
 
 /***/ }),
 /* 342 */
-/*!******************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/cheerio/lib/api/forms.js ***!
-  \******************************************************************************************/
+/*!*****************************************************!*\
+  !*** E:/Book/node_modules/cheerio/lib/api/forms.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -38514,9 +38514,9 @@ module.exports = baseMap;
 
 /***/ }),
 /* 345 */
-/*!**************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/node_modules/cheerio/package.json ***!
-  \**************************************************************************************/
+/*!*************************************************!*\
+  !*** E:/Book/node_modules/cheerio/package.json ***!
+  \*************************************************/
 /*! exports provided: _from, _id, _inBundle, _integrity, _location, _phantomChildren, _requested, _requiredBy, _resolved, _shasum, _spec, _where, author, bugs, bundleDependencies, dependencies, deprecated, description, devDependencies, engines, files, homepage, keywords, license, main, name, repository, scripts, version, default */
 /***/ (function(module) {
 
@@ -38540,9 +38540,9 @@ module.exports = {"_from":"cheerio","_id":"cheerio@1.0.0-rc.3","_inBundle":false
 /* 360 */,
 /* 361 */,
 /* 362 */
-/*!******************************************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/js_sdk/mp-storage/mp-storage/index.js ***!
-  \******************************************************************************************/
+/*!*****************************************************!*\
+  !*** E:/Book/js_sdk/mp-storage/mp-storage/index.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -38736,13 +38736,89 @@ if (typeof window === 'object' && typeof window.document === 'object') {
 /* 377 */,
 /* 378 */,
 /* 379 */
-/*!***************************************************************!*\
-  !*** C:/Users/Administrator/Documents/GitHub/Book/theme.json ***!
-  \***************************************************************/
+/*!**************************!*\
+  !*** E:/Book/theme.json ***!
+  \**************************/
 /*! exports provided: data, default */
 /***/ (function(module) {
 
 module.exports = {"data":[{"name":"默认","fontColor":"#333","pageBg":"#fcfcfc","menuBg":"#fff","textColor":"#000"},{"name":"夜间","fontColor":"#555","pageBg":"#191919","menuBg":"#1f1f1f","textColor":"#555"},{"name":"护眼","fontColor":"#969696","pageBg":"#dde7c5","menuBg":"#333","textColor":"#202310"},{"name":"淡黄","fontColor":"#362e23","pageBg":"#f8e6c0","menuBg":"#f8e5c5","textColor":"#6b5d54"},{"name":"粉色","fontColor":"#4d1e24","pageBg":"#eec5cb","menuBg":"#f6dcdf","textColor":"#7f5b5f"}]};
+
+/***/ }),
+/* 380 */,
+/* 381 */,
+/* 382 */,
+/* 383 */,
+/* 384 */,
+/* 385 */,
+/* 386 */,
+/* 387 */,
+/* 388 */,
+/* 389 */,
+/* 390 */,
+/* 391 */,
+/* 392 */,
+/* 393 */,
+/* 394 */,
+/* 395 */,
+/* 396 */,
+/* 397 */,
+/* 398 */,
+/* 399 */,
+/* 400 */,
+/* 401 */,
+/* 402 */,
+/* 403 */,
+/* 404 */,
+/* 405 */,
+/* 406 */,
+/* 407 */,
+/* 408 */,
+/* 409 */,
+/* 410 */,
+/* 411 */,
+/* 412 */,
+/* 413 */,
+/* 414 */,
+/* 415 */,
+/* 416 */,
+/* 417 */,
+/* 418 */,
+/* 419 */,
+/* 420 */,
+/* 421 */,
+/* 422 */,
+/* 423 */,
+/* 424 */
+/*!************************************!*\
+  !*** E:/Book/common/bookDetail.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getDetail = void 0;var cheerio = __webpack_require__(/*! cheerio */ 17);
+
+var getDetail = function getDetail(url) {
+  return new Promise(function (res, rej) {
+    uni.request({
+      url: url,
+      success: function success(data) {
+        console.log(data);
+        var $ = cheerio.load(data);
+        var book = {
+          desc: $('#intro').find('p').text(),
+          image: $("#fmimg").find("img").attr('src') };
+
+        res(book);
+      },
+      fail: function fail() {
+        rej();
+      } });
+
+  });
+};exports.getDetail = getDetail;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ })
 ]]);

@@ -1,31 +1,33 @@
 <template>
 	<view class="content">
 		<view class="l-head">
+			<!-- #ifdef !MP-WEIXIN -->
 			<view class="l-search-back iconfont" @click="goBack">&#xe607;</view>
+			<!-- #endif -->
+			
 			<view class="l-search">
 				<input confirm-type="search" @confirm="confirm" @input="getSearch" type="text" :value="value" class="l-search-input" placeholder="斗罗大陆" placeholder-class="l-holder" />
-				<view class="clear iconfont" @click="clearInput">&#xe710;</view>
+				<view class="clear" @click="clearInput">
+					<text class="iconfont">&#xe710;</text>
+				</view>
 			</view>
 		</view>
-		<!-- <view v-if="searchList.length" class="l-search-result">
-			<view v-for="(item,index) in searchList" :key="index"  @tap="searchKey(item)">{{item}}</view>
-		</view> -->
 		<view class="l-search-other">
 			<view class="l-search-hot">
-				<view class="l-search-hot-name">热门</view>
+				<text class="l-search-hot-name">热门</text>
 				<view class="l-search-hot-value">
-					<view class="l-search-item" v-for="(item,index) in $hot" :key="index" @tap="searchKey(item)">
+					<view class="l-search-item" v-for="(item,index) in hotList" :key="index" @click="searchKey(item)">
 						{{item}}
 					</view>
 				</view>
 			</view>
 			<view class="l-search-history">
 				<view class="l-search-history-outer">
-					<view class="l-search-history-name">搜索历史</view>
-					<view class="iconfont" @tap="clearAll">&#xe637;</view>
+					<text class="l-search-history-name">搜索历史</text>
+					<view class="iconfont" @click="clearAll">&#xe637;</view>
 				</view>
 				<view class="l-search-history-value">
-					<view class="l-search-item" v-for="(item,index) in historyList" :key="index" @tap="searchKey(item)">
+					<view class="l-search-item" v-for="(item,index) in historyList" :key="index" @click="searchKey(item)">
 						{{item}}
 					</view>
 				</view>
@@ -34,14 +36,11 @@
 		
 		<view v-if="bookList.length" class="l-search-content">
 			<view class="l-search-item" v-for="(item,index) in bookList" :key="index" @tap="navtoDetail(item)">
-				<view style="width: 40%;">
+				<view class="search-name">
 					{{item.name}}
 				</view>
-				<view style="width: 30%;">
+				<view class="search-user">
 					{{item.user}}
-				</view>
-				<view>
-					{{item.update}}
 				</view>
 			</view>
 		</view>
@@ -64,17 +63,15 @@
 		data() {
 			return {
 				bookList: [],
-				// searchList: [],
+				hotList: [],
 				historyList: [],
 				value: '',
+				noData: '我Giao，啥也没搜到~~~',
 			}
 		},
 		onLoad(){
-			// var this_ = this;
-			// window.fn = function(e){
-			// 	this_.searchList = e.s
-			// };
 			
+			this.hotList = this.$hot;
 			
 			let his = localStorage.getItem('search_history'); 
 			this.historyList = his && his.split(',')
@@ -98,32 +95,28 @@
 				var this_ = this
 				if(!this_.value){
 					this_.bookList = [];
-					// this_.searchList = [];
 				}
-				
-				// this.getRequest({
-				// 	url: this_.$searchUrl + encodeURI(this_.value),
-				// 	type: "GET",
-				// 	success: function(res){
-				// 		new Function(`return ${res}`);
-				// 	}
-				// })
 			},
 			confirm(e){
-				let searchVal = e.detail.value;
-				if(searchVal){
-					this.searchKey(searchVal)
-					const historys = this.historyList || []
-					historys.indexOf(searchVal) == -1 && historys.push(searchVal)
-					localStorage.setItem('search_history', historys)
-				}
+				this.searchKey(e.detail.value)
 			},
 			searchKey(item){
-				var this_ = this
+				this.value = item
+				this.$emit('inputValue', {
+				    id: this.id,
+				    value: item
+				})
+				
+				if(item){
+					const historys = this.historyList || []
+					historys.indexOf(item) == -1 && historys.push(item)
+					localStorage.setItem('search_history', historys)
+				}
+				
 				const cheerio = require('cheerio')
-				this.getReuest({
-					url: this_.$bookUrl + '/modules/article/waps.php?searchkey=' + item,
-					success: function(res){
+				this.getRequest({
+					url: this.$bookUrl + '/modules/article/waps.php?searchkey=' + item,
+					success: res => {
 						let list = [];
 						const $ = cheerio.load(res)
 						let data = $('.grid tr');
@@ -138,15 +131,23 @@
 								})
 							}
 						});
-						this_.bookList = list;
-						// this_.searchList = [];
+						if(list.length == 0){
+							this.bookList = [{
+								name: this.noData,
+								user: ''
+							}]
+						} else {
+							this.bookList = list;
+						}
 					}
 				})
 			},
 			navtoDetail(url) {
-				uni.navigateTo({
-					url: `/pages/detail/detail?url=` + url.url + '&name=' + url.name
-				})
+				if(url.name != this.noData){
+					uni.navigateTo({
+						url: `/pages/detail/detail?url=` + url.url + '&name=' + url.name
+					})
+				}
 			},
 			clearAll(){
 				this.historyList = []
@@ -159,7 +160,6 @@
 				    value: this.value
 				})
 				this.bookList = [];
-				this.searchList = [];
 			}
 		}
 	}
@@ -180,21 +180,43 @@
 		font-size: 22rpx;
 	}
 	.l-head,
+	.l-search-other,
+	.l-search-content{
+		padding: 0 5%;
+		box-sizing: border-box;
+
+	}
+	.l-head{
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		background-color: #FFFFFF;
+		padding: 0 5%;
+		z-index: 10;
+	}
 	.content{
 		position: relative;
 	}
 	.clear{
 		color: #bfbfbf;
+		width: 50rpx;
+		height: 50rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 	.l-search-back{
 		font-size: 40rpx;
 		margin-right: 30rpx;
 		font-weight: bold;
 	}
+	.l-search-other{
+		padding-top: 80rpx;
+	}
 	.l-search-hot,
 	.l-search-history{
 		margin-top: 60rpx;
-		padding-left: 40rpx;
 	}
 	.l-search-hot-value,
 	.l-search-history-value{
@@ -215,10 +237,10 @@
 		padding-right: 40rpx;
 	}
 	.l-search-content{
-		position: fixed;
+		position: absolute;
 		width: 100%;
-		height: 10000%;
-		top: 0;
+		min-height: 100%;
+		top: 88rpx;
 		background-color: #FFFFFF;
 	}
 	.l-search-content .l-search-item{

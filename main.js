@@ -14,7 +14,7 @@ Vue.prototype.$toast = function(title){
 
 
 Vue.prototype.getRequest = function(param){
-	param.loading && uni.showLoading();
+	!param.loading && uni.showLoading();
 	uni.request({
 	    url: param.url,
 		sslVerify: false,
@@ -25,7 +25,7 @@ Vue.prototype.getRequest = function(param){
 	        typeof param.fail == "function" && param.fail(e);
 	    }, 
 	    complete: () => {
-			param.loading && uni.hideLoading();
+			!param.loading && uni.hideLoading();
 			typeof param.complete == "function" && param.complete();
 		}
 	});
@@ -34,7 +34,7 @@ Vue.prototype.getRequest = function(param){
 // Vue.prototype.$bookUrl = 'http://www.biquge.info'
 Vue.prototype.$bookUrl = 'http://www.xbiquge.la'
 Vue.prototype.$searchUrl = 'http://unionsug.baidu.com/su?wd='
-Vue.prototype.$hot = ['武神主宰','斗罗大陆','庆余年','圣墟','斗罗大陆4终极斗罗','大主宰','剑道第一仙']
+Vue.prototype.$hot = ['斗破苍穹','庆余年','圣墟','斗罗大陆4终极斗罗','大主宰','剑道第一仙']
 
 const app = new Vue({
     ...App

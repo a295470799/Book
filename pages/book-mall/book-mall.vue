@@ -1,11 +1,10 @@
 <template>
 	<view class="content">
 		<!-- l-head -->
-
 		<view class="l-head">
 			<view class="l-search" @tap="navtoSearch">
 				<image class="l-icon-search" src="../../static/l-icon-search.png" mode=""></image>
-				<input type="text" class="l-search-input" disabled="" value="" placeholder="" placeholder-class="l-holder" />
+				<input type="text" class="l-search-input" disabled="" placeholder="斗破苍穹" placeholder-class="l-holder" />
 			</view>
 		</view>
 		
@@ -15,11 +14,11 @@
 			</view>
 
 			<view class="l-list-classify">
-				<view class="l-list-item" v-for="(s,i) in types" :key="i" @tap="navtoClssify(s)">
+				<view class="l-list-item" v-for="(item, key) in typeList" :key="key" @tap="navtoClssify(item)">
 					<view class="l-item_view">
 						<view class="l-item__value">
 							<view class="l-item__value-title">
-								{{s.name}}
+								{{item.name}}
 							</view>
 							<view class="l-item__value-sub">
 								点击获取
@@ -41,13 +40,30 @@
 				title: 'Hello',
 				img: `../../static/152b74dd6eb4c583fd8921a3f634b5dc.jpg`,
 				bookimg: `../../static/152b74dd6eb4c583fd8921a3f634b5dc.jpg`,
-
 				cover: `../../static/152b74dd6eb4c583fd8921a3f634b5dc.jpg`,
-				types:[],
+				typeList:[],
 			}
 		},
 		onLoad() {
-			this.types = uni.getStorageSync('types')
+			var _this = this;
+			const cheerio = require('cheerio')
+			this.getRequest({
+				url: _this.$bookUrl,
+				success: res => {
+					var list = [];
+					const $ = cheerio.load(res)
+					var tyes = []
+					$(".nav").find('li').each(function(e,w){
+						if(e > 1){
+							tyes.push({
+								name: $(this).find('a').text(),
+								url: _this.$bookUrl + $(this).find('a').attr('href')
+							})
+						}
+					})
+					this.typeList = tyes;
+				}
+			})
 		},
 		methods: {
 			navto() {
