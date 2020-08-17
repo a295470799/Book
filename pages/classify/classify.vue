@@ -3,7 +3,7 @@
 		<!-- l-head -->
 
 		<view class="l-head">
-			<view class="l-search" @tap="$toast(`搜索`)">
+			<view class="l-search">
 				<image class="l-icon-search" src="../../static/l-icon-search.png" mode=""></image>
 				<input type="text" class="l-search-input" disabled="" value="" placeholder="精彩热搜：金光布袋戏《羽国志异》" placeholder-class="l-holder" />
 			</view>
@@ -11,24 +11,24 @@
 		
 		<view class="l-view">
 			<view class="l-h3">
-				<text class="l-h3-title">列表</text>
+				<text class="l-h3-title">{{title}}</text>
 			</view>
 			<view class="l-dl" v-for="(item,index) in bookList" :key="index" @tap="navtoDetail(item)">
 				<image class="l-dt" :src="item.image" mode="aspectFill"></image>
 				<view class="l-dd">
-					<view class="l-dd-title">
+					<view v-if="item.name" class="l-dd-title">
 						{{item.name}}
 					</view>
-					<view class="l-dd-content">
+					<view v-if="item.desc" class="l-dd-content">
 						{{item.desc}}
 					</view>
-					<view class="l-dd-footer">
+					<view v-if="item.user" class="l-dd-footer">
 						{{item.user}}
 					</view>
 				</view>
 			</view>
 			
-			<button @click="getboos(nextPage)"> 加载下一页</button>
+			<!-- <button @click="getBooks(nextPage)"> 加载下一页</button> -->
 		</view>
 	</view>
 </template>
@@ -39,50 +39,105 @@
 	export default {
 		data() {
 			return {
-				title: 'Hello',
-				img: `../../static/152b74dd6eb4c583fd8921a3f634b5dc.jpg`,
-				bookimg: `../../static/152b74dd6eb4c583fd8921a3f634b5dc.jpg`,
-				cover: `../../static/152b74dd6eb4c583fd8921a3f634b5dc.jpg`,
+				title: '',
+				bookimg: `../../static/classify/l-img-classify-1.png`,
+				bookDesc: '暂时没有介绍',
 				bookList:[],
 				nextPage:{},
+				pageSize: 10,
+				pageIndex: 0,
+				cacheList: [], //缓存的60条数据
 			}
 		},
 		onLoad(param) {
-			this.getboos(param)
+			this.title = param.name;
+			this.getBooks(param)
+		},
+		onReachBottom() {
+			this.getNext();
 		},
 		methods: {
-			getDetail(url, arr){
+			getNext(){
+				var _this = this
+				var list = _this.cacheList;
+				_this.pageIndex++;
+				
+				for (var i = _this.pageIndex - 1; i < _this.pageSize * _this.pageIndex; i++) {
+					_this.bookList.push(list[i])
+				}
+				var j = 0;
+				_this.bookList.forEach((item, index)=>{
+					j++;
+					if(item.desc == _this.bookDesc){
+						setTimeout(()=>{
+							_this.getInfo(item.url, item)
+						}, 1000 * j)
+					}
+				})
+				
+				if(_this.cacheList.length != 0 && _this.cacheList.length == _this.pageIndex * _this.pageSize){
+					_this.getBooks(_this.nextPage)
+				}
+			},
+			getInfo(url, arr){
 				getDetail(url).then((res) => {
-					arr.desc = res.desc;
-					arr.image = res.image;
-					// console.log(res);
+					arr.desc = res.desc || this.bookDesc;
+					arr.image = res.image || this.bookimg;
 				})
 			},
-			getboos(param){
-				const cheerio = require('cheerio')
+			getBooks(param){
 				var _this = this
-				this.getRequest({
+				const cheerio = require('cheerio')
+				_this.getRequest({
 					url: param.url,
 					success: res => {
-						var list = [];
 						const $ = cheerio.load(res)
-						$('#newscontent').find('li').each(function(i,w){
-							list.push({
+						var $html = $('#newscontent').find('li')
+						$html.each(function(){
+							_this.cacheList.push({
 								name: $(this).find('.s2 a').text(),
 								url: $(this).find('.s2 a').attr('href'),
 								user: $(this).find('.s5').text(),
-								desc: '加载中...',
-								image: '../../static/classify/l-img-classify-1.png',
+								desc: _this.bookDesc,
+								image: _this.bookimg,
 							})
 						})
 						
-						list.forEach((i, w)=>{
-							setTimeout(()=>{
-								this.getDetail(i.url, list[w])
-							}, 600 * w)
-						})
-						this.bookList = list;
+						// this.total = $html.length;
+						// for (let i = 0; i < $html.length; i++) {
+						// 	// $($html[i])
+							
+						// 	list.push({
+						// 		name: $($html[i]).find('.s2 a').text(),
+						// 		url: $($html[i]).find('.s2 a').attr('href'),
+						// 		user: $($html[i]).find('.s5').text(),
+						// 		desc: this.bookDesc,
+						// 		image: this.bookimg,
+						// 	})
+						// }
+						// $('#newscontent').find('li').each(function(i,w){
+						// 	console.log(w)
+						// 	var blength = list.length + 1
+						// 	if(list.length <= blength < this.pageIndex * this.pageSize){
+						// 		list.push({
+						// 			name: $(this).find('.s2 a').text(),
+						// 			url: $(this).find('.s2 a').attr('href'),
+						// 			user: $(this).find('.s5').text(),
+						// 			desc: this.bookDesc,
+						// 			image: this.bookimg,
+						// 		})
+						// 	}
+						// 	blength == this.pageIndex * this.pageSize && this.pageIndex ++;
+						// })
 						
+						// list.forEach((i, w)=>{
+						// 	setTimeout(()=>{
+						// 		this.getDetail(i.url, list[w])
+						// 	}, 800 * w)
+						// })
+						// this.bookList = list;
+						
+						_this.getNext()
 						_this.nextPage = {url: $('#pagelink .next').attr('href')}
 					}
 				})

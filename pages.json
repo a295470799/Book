@@ -6,14 +6,16 @@
 				"navigationBarTitleText": "发现",
 				"app-plus":{
 					"titleNView":false
-				}
+				},
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/classify/classify",
 			"style": {
 				"navigationBarTitleText": "分类",
-				"app-plus":{}
+				"app-plus":{},
+				"enablePullDownRefresh": true
 			}
 		},
 		{

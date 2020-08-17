@@ -94,7 +94,7 @@
 	</view>
 </template>
 <script>
-	var interval, timeInter, dianliangInter;
+	// var interval, timeInter;
 	import theme from '../../theme'
 	export default {
 		data() {
@@ -128,8 +128,8 @@
 		},
 		onUnload() {
 			// 页面卸载的时候清除定时器
-			clearInterval(timeInter)
-			clearInterval(dianliangInter)
+			// clearInterval(timeInter)
+			// clearInterval(dianliangInter)
 			uni.hideLoading();
 			//页面卸载的时候将通知栏显示出来
 			// #ifdef APP-PLUS
@@ -176,19 +176,19 @@
 		},
 		onLoad(e) {
 			// #ifdef APP-PLUS
-			plus.navigator.setStatusBarStyle('dark');
-			plus.navigator.setStatusBarBackground('#FF0000');
-			// #endif
-			this.dianliang();
-			this.getTimes();
-			//每分钟获取一次电量
-			dianliangInter = setInterval(() => {
-				this.dianliang();
-			}, 60000)
-			//每秒获取一次时间
-			timeInter = setInterval(() => {
-				this.getTimes();
-			}, 1000)
+			// plus.navigator.setStatusBarStyle('dark');
+			// plus.navigator.setStatusBarBackground('#FF0000');
+			// // #endif
+			// this.dianliang();
+			// this.getTimes();
+			// //每分钟获取一次电量
+			// dianliangInter = setInterval(() => {
+			// 	this.dianliang();
+			// }, 60000)
+			// //每秒获取一次时间
+			// timeInter = setInterval(() => {
+			// 	this.getTimes();
+			// }, 1000)
 			this.getText(e)
 		},
 		methods: {
@@ -201,7 +201,7 @@
 				console.log(param.url)
 				const cheerio = require('cheerio')
 				var this_ = this
-				this.getHtml({
+				this.getRequest({
 					url: param.url,
 					success: function(res) {
 						this_.content_text = '';
@@ -269,35 +269,35 @@
 			},
 			//获取系统电量
 			dianliang() {
-				var this_ = this;
 				// #ifdef APP-PLUS
-				if (uni.getSystemInfoSync().platform != 'ios') {
-					var main = plus.android.runtimeMainActivity();
-					var Intent = plus.android.importClass('android.content.Intent');
-					var recevier = plus.android.implements('io.dcloud.feature.internal.reflect.BroadcastReceiver', {
-						onReceive: function(context, intent) {
-							var action = intent.getAction();
-							if (action == Intent.ACTION_BATTERY_CHANGED) {
-								var level = intent.getIntExtra("level", 0); //电量  
-								var voltage = intent.getIntExtra("voltage", 0); //电池电压  
-								var temperature = intent.getIntExtra("temperature", 0); //电池温度  
-								//如需获取别的，在这里继续写，此代码只提供获取电量  
-								this_.battery = level;
-							}
-						}
-					});
-					var IntentFilter = plus.android.importClass('android.content.IntentFilter');
-					var filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-					main.registerReceiver(recevier, filter);
-				} else {
-					var UIDevice = plus.ios.import("UIDevice");
-					var dev = UIDevice.currentDevice();
-					if (!dev.isBatteryMonitoringEnabled()) {
-						dev.setBatteryMonitoringEnabled(true);
-					}
-					var level = dev.batteryLevel();
-					this_.battery = level * 100;
-				}
+				// var this_ = this;
+				// if (uni.getSystemInfoSync().platform != 'ios') {
+				// 	var main = plus.android.runtimeMainActivity();
+				// 	var Intent = plus.android.importClass('android.content.Intent');
+				// 	var recevier = plus.android.implements('io.dcloud.feature.internal.reflect.BroadcastReceiver', {
+				// 		onReceive: function(context, intent) {
+				// 			var action = intent.getAction();
+				// 			if (action == Intent.ACTION_BATTERY_CHANGED) {
+				// 				var level = intent.getIntExtra("level", 0); //电量  
+				// 				var voltage = intent.getIntExtra("voltage", 0); //电池电压  
+				// 				var temperature = intent.getIntExtra("temperature", 0); //电池温度  
+				// 				//如需获取别的，在这里继续写，此代码只提供获取电量  
+				// 				this_.battery = level;
+				// 			}
+				// 		}
+				// 	});
+				// 	var IntentFilter = plus.android.importClass('android.content.IntentFilter');
+				// 	var filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+				// 	main.registerReceiver(recevier, filter);
+				// } else {
+				// 	var UIDevice = plus.ios.import("UIDevice");
+				// 	var dev = UIDevice.currentDevice();
+				// 	if (!dev.isBatteryMonitoringEnabled()) {
+				// 		dev.setBatteryMonitoringEnabled(true);
+				// 	}
+				// 	var level = dev.batteryLevel();
+				// 	this_.battery = level * 100;
+				// }
 				// #endif
 			},
 			getTimes() {

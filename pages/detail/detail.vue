@@ -5,22 +5,22 @@
 				<view class="l-dl">
 					<image class="l-dt" :src="book.image" mode="aspectFill"></image>
 					<view class="l-dd">
-						<view class="l-dd-title">
+						<view v-if="book.name" class="l-dd-title">
 							{{book.name}}
 						</view>
-						<view class="l-dd-sub">
+						<view v-if="book.user" class="l-dd-sub">
 							{{book.user}}
 						</view>
-						<view class="l-dd-content">
+						<view v-if="book.desc" class="l-dd-content">
 							{{book.desc}}
 						</view>
-						<view class="l-dd-footer">
+						<view v-if="book.update" class="l-dd-footer">
 							{{book.update}}
 						</view>
 					</view>
 				</view>
 				<view class="l-body-select">
-					<view class="l-body-tab">
+					<view v-if="book.newName" class="l-body-tab">
 						{{book.newName}}
 					</view>
 				</view>
@@ -29,7 +29,7 @@
 					<view class="l-h3">
 						<text class="l-h3-title">详情</text>
 					</view>
-					<view class="l-list-view">
+					<view v-if="book.desc" class="l-list-view">
 						{{book.desc}}
 					</view>
 				</view>

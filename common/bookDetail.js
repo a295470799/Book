@@ -5,8 +5,8 @@ export const getDetail = (url) => {
 		uni.request({
 			url: url,
 			success(data) {
-				console.log(data);
-				const $ = cheerio.load(data)
+				const cheerio = require('cheerio')
+				const $ = cheerio.load(data.data)
 				const book = {
 					desc: $('#intro').find('p').text(),
 					image: $("#fmimg").find("img").attr('src'),
