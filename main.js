@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App'
-import { getIp } from '@/common/ip.js';
+import { getIp, getAgent } from '@/common/ip.js';
 
 Vue.config.productionTip = false
 
@@ -17,12 +17,14 @@ Vue.prototype.$toast = function(title){
 Vue.prototype.getRequest = function(param){
 	!param.loading && uni.showLoading();
 	var ip = getIp();
+	var agent = getAgent();
 	uni.request({
 	    url: param.url,
 		sslVerify: false,
 		header:{
 			'CLIENT-IP': ip,
-			'X-FORWARDED-FOR': ip
+			'X-FORWARDED-FOR': ip,
+			'User-Agent': agent,
 		},
 	    success: res => {
 			typeof param.success == "function" && param.success(res.data);
