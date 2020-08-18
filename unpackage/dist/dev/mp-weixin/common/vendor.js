@@ -38546,8 +38546,8 @@ var getDetail = function getDetail(url) {
     uni.request({
       url: url,
       success: function success(data) {
-        console.log(data);
-        var $ = cheerio.load(data);
+        var cheerio = __webpack_require__(/*! cheerio */ 17);
+        var $ = cheerio.load(data.data);
         var book = {
           desc: $('#intro').find('p').text(),
           image: $("#fmimg").find("img").attr('src') };

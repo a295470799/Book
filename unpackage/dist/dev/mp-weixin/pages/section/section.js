@@ -322,7 +322,8 @@ var _theme = _interopRequireDefault(__webpack_require__(/*! ../../theme */ 380))
 //
 //
 //
-var interval, timeInter, dianliangInter;var _default = { data: function data() {return { section_title: '', //章节标题
+// var interval, timeInter;
+var _default = { data: function data() {return { section_title: '', //章节标题
       //正文
       content_text: '', show: false, //菜单display
       thisTheme: 0, //当前主题
@@ -341,7 +342,9 @@ var interval, timeInter, dianliangInter;var _default = { data: function data() {
       lineHeight: uni.getStorageSync('lineHeight') ? uni.getStorageSync('lineHeight') : 70, //正文行间距
       nextUrl: '', windowHeight: 0, scroll_top: 0, type: '', //翻页方式
       showSetting: false };}, onUnload: function onUnload() {// 页面卸载的时候清除定时器
-    clearInterval(timeInter);clearInterval(dianliangInter);uni.hideLoading(); //页面卸载的时候将通知栏显示出来
+    // clearInterval(timeInter)
+    // clearInterval(dianliangInter)
+    uni.hideLoading(); //页面卸载的时候将通知栏显示出来
   }, created: function created() {var _this = this;var this_ = this; //获取状态栏高度给顶部占位节点
     var zt = uni.getStorageSync('theme'); //主题索引
     if (zt) {this.thisTheme = zt;this.fontColor = _theme.default.data[zt].fontColor; //菜单字体颜色
@@ -354,21 +357,18 @@ var interval, timeInter, dianliangInter;var _default = { data: function data() {
       this.textColor = _theme.default.data[0].textColor; //富文本文字颜色
     }uni.getSystemInfo({ success: function success(res) {_this.statusBarHeight = res.statusBarHeight + 'px';} });}, onShow: function onShow() {//页面显示的时候将通知栏隐藏掉
   }, onHide: function onHide() {//页面隐藏的时候将通知栏显示出来
-  }, onLoad: function onLoad(e) {var _this2 = this;this.dianliang();this.getTimes(); //每分钟获取一次电量
-    dianliangInter = setInterval(function () {_this2.dianliang();}, 60000); //每秒获取一次时间
-    timeInter = setInterval(function () {_this2.getTimes();}, 1000);this.getText(e);}, methods: { scrolltolower: function scrolltolower() {this.getText({ url: this.nextUrl });}, getText: function getText(param) {console.log(param.url);var cheerio = __webpack_require__(/*! cheerio */ 17);var this_ = this;this.getHtml({ url: param.url, success: function success(res) {this_.content_text = '';uni.pageScrollTo({ scrollTop: 0, duration: 10 });var $ = cheerio.load(res);this_.section_title = $('.bookname').find('h1').text();var text = this_.section_title + "<br><br>";text += $.html('#content');this_.content_text = text;this_.shuming = param.name;this_.nextUrl = $(".bottem1").find('a').eq(3).attr('href');var book = uni.getStorageSync('book');book.hisUrl = param.url;book.hisTitle = this_.content_text;book.list = [];var hislist;try {hislist = uni.getStorageSync('hislist');} catch (e) {}
-          if (!hislist) {
-            hislist = {};
-          }
-          hislist[book.name] = book;
-          uni.setStorageSync('hislist', hislist);
-        } });
-
-    },
-    //修改正文字体大小
-    changeFontSize: function changeFontSize(e) {
-      this.size = e.detail.value;
-      uni.setStorageSync('fontsize', e.detail.value);
+  }, onLoad: function onLoad(e) {// this.dianliang();
+    // this.getTimes();
+    // //每分钟获取一次电量
+    // dianliangInter = setInterval(() => {
+    // 	this.dianliang();
+    // }, 60000)
+    // //每秒获取一次时间
+    // timeInter = setInterval(() => {
+    // 	this.getTimes();
+    // }, 1000)
+    this.getText(e);}, methods: { scrolltolower: function scrolltolower() {this.getText({ url: this.nextUrl });}, getText: function getText(param) {console.log(param.url);var cheerio = __webpack_require__(/*! cheerio */ 17);var this_ = this;this.getRequest({ url: param.url, success: function success(res) {this_.content_text = '';uni.pageScrollTo({ scrollTop: 0, duration: 10 });var $ = cheerio.load(res);this_.section_title = $('.bookname').find('h1').text();var text = this_.section_title + "<br><br>";text += $.html('#content');this_.content_text = text;this_.shuming = param.name;this_.nextUrl = $(".bottem1").find('a').eq(3).attr('href');var book = uni.getStorageSync('book');book.hisUrl = param.url;book.hisTitle = this_.content_text;book.list = [];var hislist;try {hislist = uni.getStorageSync('hislist');} catch (e) {}if (!hislist) {hislist = {};}hislist[book.name] = book;uni.setStorageSync('hislist', hislist);} });}, //修改正文字体大小
+    changeFontSize: function changeFontSize(e) {this.size = e.detail.value;uni.setStorageSync('fontsize', e.detail.value);
     },
     //修改正文行间距
     changeLineHeight: function changeLineHeight(e) {
@@ -401,7 +401,7 @@ var interval, timeInter, dianliangInter;var _default = { data: function data() {
     },
     //获取系统电量
     dianliang: function dianliang() {
-      var this_ = this;
+
 
 
 

@@ -85,6 +85,9 @@
 				})
 			}
 		},
+		onPullDownRefresh(){
+			this.onLoad();
+		},
 		onLoad() {
 			const cheerio = require('cheerio')
 			this.getRequest({

@@ -152,20 +152,75 @@ var _bookDetail = __webpack_require__(/*! @/common/bookDetail.js */ 354); //
 //
 //
 //
-var _default = { data: function data() {return { title: 'Hello', img: "../../static/152b74dd6eb4c583fd8921a3f634b5dc.jpg", bookimg: "../../static/152b74dd6eb4c583fd8921a3f634b5dc.jpg", cover: "../../static/152b74dd6eb4c583fd8921a3f634b5dc.jpg", bookList: [], nextPage: {} };}, onLoad: function onLoad(param) {this.getboos(param);}, methods: { getDetail: function getDetail(url, arr) {(0, _bookDetail.getDetail)(url).then(function (res) {arr.desc = res.desc;arr.image = res.image; // console.log(res);
-      });}, getboos: function getboos(param) {var _this2 = this;var cheerio = __webpack_require__(/*! cheerio */ 17);var _this = this;this.getRequest({ url: param.url, success: function success(res) {var list = [];var $ = cheerio.load(res);$('#newscontent').find('li').each(function (i, w) {list.push({ name: $(this).find('.s2 a').text(), url: $(this).find('.s2 a').attr('href'), user: $(this).find('.s5').text(),
-              desc: '加载中...',
-              image: '../../static/classify/l-img-classify-1.png' });
+var _default = { data: function data() {return { title: '', bookimg: "../../static/classify/l-img-classify-1.png", bookDesc: '暂时没有介绍', bookList: [], nextPage: {}, pageSize: 10, pageIndex: 0, cacheList: [] //缓存的60条数据
+    };}, onLoad: function onLoad(param) {this.title = param.name;this.getBooks(param);}, onReachBottom: function onReachBottom() {this.getNext();}, methods: { getNext: function getNext() {var _this = this;var list = _this.cacheList;_this.pageIndex++;for (var i = _this.pageIndex - 1; i < _this.pageSize * _this.pageIndex; i++) {_this.bookList.push(list[i]);}var j = 0;_this.bookList.forEach(function (item, index) {j++;if (item.desc == _this.bookDesc) {setTimeout(function () {_this.getInfo(item.url, item);
+          }, 1000 * j);
+        }
+      });
+
+      if (_this.cacheList.length != 0 && _this.cacheList.length == _this.pageIndex * _this.pageSize) {
+        _this.getBooks(_this.nextPage);
+      }
+    },
+    getInfo: function getInfo(url, arr) {var _this2 = this;
+      (0, _bookDetail.getDetail)(url).then(function (res) {
+        arr.desc = res.desc || _this2.bookDesc;
+        arr.image = res.image || _this2.bookimg;
+      });
+    },
+    getBooks: function getBooks(param) {
+      var _this = this;
+      var cheerio = __webpack_require__(/*! cheerio */ 17);
+      _this.getRequest({
+        url: param.url,
+        success: function success(res) {
+          var $ = cheerio.load(res);
+          var $html = $('#newscontent').find('li');
+          $html.each(function () {
+            _this.cacheList.push({
+              name: $(this).find('.s2 a').text(),
+              url: $(this).find('.s2 a').attr('href'),
+              user: $(this).find('.s5').text(),
+              desc: _this.bookDesc,
+              image: _this.bookimg });
 
           });
 
-          list.forEach(function (i, w) {
-            setTimeout(function () {
-              _this2.getDetail(i.url, list[w]);
-            }, 600 * w);
-          });
-          _this2.bookList = list;
+          // this.total = $html.length;
+          // for (let i = 0; i < $html.length; i++) {
+          // 	// $($html[i])
 
+          // 	list.push({
+          // 		name: $($html[i]).find('.s2 a').text(),
+          // 		url: $($html[i]).find('.s2 a').attr('href'),
+          // 		user: $($html[i]).find('.s5').text(),
+          // 		desc: this.bookDesc,
+          // 		image: this.bookimg,
+          // 	})
+          // }
+          // $('#newscontent').find('li').each(function(i,w){
+          // 	console.log(w)
+          // 	var blength = list.length + 1
+          // 	if(list.length <= blength < this.pageIndex * this.pageSize){
+          // 		list.push({
+          // 			name: $(this).find('.s2 a').text(),
+          // 			url: $(this).find('.s2 a').attr('href'),
+          // 			user: $(this).find('.s5').text(),
+          // 			desc: this.bookDesc,
+          // 			image: this.bookimg,
+          // 		})
+          // 	}
+          // 	blength == this.pageIndex * this.pageSize && this.pageIndex ++;
+          // })
+
+          // list.forEach((i, w)=>{
+          // 	setTimeout(()=>{
+          // 		this.getDetail(i.url, list[w])
+          // 	}, 800 * w)
+          // })
+          // this.bookList = list;
+
+          _this.getNext();
           _this.nextPage = { url: $('#pagelink .next').attr('href') };
         } });
 

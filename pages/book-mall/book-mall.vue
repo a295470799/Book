@@ -73,7 +73,7 @@
 			},
 			navtoClssify(s) {
 				uni.navigateTo({
-					url: `/pages/classify/classify?url=` + s.url
+					url: `/pages/classify/classify?url=` + s.url +`&name=` + s.name
 				})
 			},
 			navtoDetail() {
