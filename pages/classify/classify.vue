@@ -3,15 +3,15 @@
 		<!-- l-head -->
 
 		<view class="l-head">
-			<view class="l-search">
+			<view class="l-search" @tap="navtoSearch">
 				<image class="l-icon-search" src="../../static/l-icon-search.png" mode=""></image>
-				<input type="text" class="l-search-input" disabled="" value="" placeholder="精彩热搜：金光布袋戏《羽国志异》" placeholder-class="l-holder" />
+				<input type="text" class="l-search-input" disabled="" value="" placeholder="圣墟" placeholder-class="l-holder" />
 			</view>
 		</view>
 		
 		<view class="l-view">
 			<view class="l-h3">
-				<text class="l-h3-title">{{title}}</text>
+				<text class="l-h3-title">{{params.name}}</text>
 			</view>
 			<view class="l-dl" v-for="(item,index) in bookList" :key="index" @tap="navtoDetail(item)">
 				<image class="l-dt" :src="item.image" mode="aspectFill"></image>
@@ -39,7 +39,6 @@
 	export default {
 		data() {
 			return {
-				title: '',
 				bookimg: `../../static/classify/l-img-classify-1.png`,
 				bookDesc: '暂时没有介绍',
 				bookList:[],
@@ -47,16 +46,25 @@
 				pageSize: 10,
 				pageIndex: 0,
 				cacheList: [], //缓存的60条数据
+				params: [],
 			}
 		},
 		onLoad(param) {
-			this.title = param.name;
+			this.params = param;
 			this.getBooks(param)
 		},
 		onReachBottom() {
 			this.getNext();
 		},
+		onPullDownRefresh(){
+			this.getBooks(this.params)
+		},
 		methods: {
+			navtoSearch(){
+				uni.navigateTo({
+					url: `/pages/search/search`
+				})
+			},
 			getNext(){
 				var _this = this
 				var list = _this.cacheList;
@@ -91,6 +99,7 @@
 				_this.getRequest({
 					url: param.url,
 					success: res => {
+						uni.stopPullDownRefresh()
 						const $ = cheerio.load(res)
 						var $html = $('#newscontent').find('li')
 						$html.each(function(){

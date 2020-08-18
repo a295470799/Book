@@ -83,32 +83,35 @@
 				uni.navigateTo({
 					url: `/pages/search/search`
 				})
-			}
+			},
+			initPage(){
+				const cheerio = require('cheerio')
+				this.getRequest({
+					url: this.$bookUrl,
+					success: res => {
+						var list = [];
+						const $ = cheerio.load(res)
+						var data = $('#hotcontent .item');
+						data.each(function(i, elem) {
+						   list.push({
+							name: $(this).find('dl a').text(),
+							url: $(this).find('dt a').attr('href'),
+							user: '作者：' + $(this).find('dt span').text(),
+							desc: $(this).find('dd').text(),
+							image: $(this).find('img').attr('src'),
+						   })
+						});
+						this.bookList = list
+						uni.stopPullDownRefresh()
+					}
+				})
+			},
 		},
 		onPullDownRefresh(){
-			this.onLoad();
+			this.initPage();
 		},
 		onLoad() {
-			const cheerio = require('cheerio')
-			this.getRequest({
-				url: this.$bookUrl,
-				success: res => {
-					var list = [];
-					const $ = cheerio.load(res)
-					var data = $('#hotcontent .item');
-					data.each(function(i, elem) {
-					   list.push({
-						name: $(this).find('dl a').text(),
-						url: $(this).find('dt a').attr('href'),
-						user: '作者：' + $(this).find('dt span').text(),
-						desc: $(this).find('dd').text(),
-						image: $(this).find('img').attr('src'),
-					   })
-					});
-					this.bookList = list
-				}
-			})
-			
+			this.initPage();
 		}
 	}
 </script>

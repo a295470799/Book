@@ -2,7 +2,7 @@
 	<view class="content">
 		<view class="l-head">
 			<!-- #ifdef !MP-WEIXIN -->
-			<view class="l-search-back iconfont" @click="goBack">&#xe607;</view>
+			<!-- <view class="l-search-back iconfont" @click="goBack">&#xe607;</view> -->
 			<!-- #endif -->
 			
 			<view class="l-search">
@@ -187,7 +187,7 @@
 
 	}
 	.l-head{
-		position: fixed;
+		position: absolute;
 		top: 0;
 		left: 0;
 		width: 100%;
