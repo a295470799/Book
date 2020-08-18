@@ -34,7 +34,7 @@
 </template>
 
 <script>
-	import { getDetail } from '@/common/bookDetail.js';
+	import { getDetail } from '@/common/book.js';
 	
 	export default {
 		data() {
@@ -79,7 +79,7 @@
 					if(item.desc == _this.bookDesc){
 						setTimeout(()=>{
 							_this.getInfo(item.url, item)
-						}, 1000 * j)
+						}, 333)
 					}
 				})
 				
