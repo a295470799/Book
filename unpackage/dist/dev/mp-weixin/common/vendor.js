@@ -38531,7 +38531,38 @@ module.exports = {"_from":"cheerio","_id":"cheerio@1.0.0-rc.3","_inBundle":false
 /* 351 */,
 /* 352 */,
 /* 353 */,
-/* 354 */,
+/* 354 */
+/*!************************************!*\
+  !*** E:/Book/common/bookDetail.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getDetail = void 0;var cheerio = __webpack_require__(/*! cheerio */ 17);
+
+var getDetail = function getDetail(url) {
+  return new Promise(function (res, rej) {
+    uni.request({
+      url: url,
+      success: function success(data) {
+        console.log(data);
+        var $ = cheerio.load(data);
+        var book = {
+          desc: $('#intro').find('p').text(),
+          image: $("#fmimg").find("img").attr('src') };
+
+        res(book);
+      },
+      fail: function fail() {
+        rej();
+      } });
+
+  });
+};exports.getDetail = getDetail;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
 /* 355 */,
 /* 356 */,
 /* 357 */,
@@ -38539,7 +38570,8 @@ module.exports = {"_from":"cheerio","_id":"cheerio@1.0.0-rc.3","_inBundle":false
 /* 359 */,
 /* 360 */,
 /* 361 */,
-/* 362 */
+/* 362 */,
+/* 363 */
 /*!*****************************************************!*\
   !*** E:/Book/js_sdk/mp-storage/mp-storage/index.js ***!
   \*****************************************************/
@@ -38719,7 +38751,6 @@ if (typeof window === 'object' && typeof window.document === 'object') {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-/* 363 */,
 /* 364 */,
 /* 365 */,
 /* 366 */,
@@ -38735,7 +38766,8 @@ if (typeof window === 'object' && typeof window.document === 'object') {
 /* 376 */,
 /* 377 */,
 /* 378 */,
-/* 379 */
+/* 379 */,
+/* 380 */
 /*!**************************!*\
   !*** E:/Book/theme.json ***!
   \**************************/
@@ -38743,82 +38775,6 @@ if (typeof window === 'object' && typeof window.document === 'object') {
 /***/ (function(module) {
 
 module.exports = {"data":[{"name":"默认","fontColor":"#333","pageBg":"#fcfcfc","menuBg":"#fff","textColor":"#000"},{"name":"夜间","fontColor":"#555","pageBg":"#191919","menuBg":"#1f1f1f","textColor":"#555"},{"name":"护眼","fontColor":"#969696","pageBg":"#dde7c5","menuBg":"#333","textColor":"#202310"},{"name":"淡黄","fontColor":"#362e23","pageBg":"#f8e6c0","menuBg":"#f8e5c5","textColor":"#6b5d54"},{"name":"粉色","fontColor":"#4d1e24","pageBg":"#eec5cb","menuBg":"#f6dcdf","textColor":"#7f5b5f"}]};
-
-/***/ }),
-/* 380 */,
-/* 381 */,
-/* 382 */,
-/* 383 */,
-/* 384 */,
-/* 385 */,
-/* 386 */,
-/* 387 */,
-/* 388 */,
-/* 389 */,
-/* 390 */,
-/* 391 */,
-/* 392 */,
-/* 393 */,
-/* 394 */,
-/* 395 */,
-/* 396 */,
-/* 397 */,
-/* 398 */,
-/* 399 */,
-/* 400 */,
-/* 401 */,
-/* 402 */,
-/* 403 */,
-/* 404 */,
-/* 405 */,
-/* 406 */,
-/* 407 */,
-/* 408 */,
-/* 409 */,
-/* 410 */,
-/* 411 */,
-/* 412 */,
-/* 413 */,
-/* 414 */,
-/* 415 */,
-/* 416 */,
-/* 417 */,
-/* 418 */,
-/* 419 */,
-/* 420 */,
-/* 421 */,
-/* 422 */,
-/* 423 */,
-/* 424 */
-/*!************************************!*\
-  !*** E:/Book/common/bookDetail.js ***!
-  \************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getDetail = void 0;var cheerio = __webpack_require__(/*! cheerio */ 17);
-
-var getDetail = function getDetail(url) {
-  return new Promise(function (res, rej) {
-    uni.request({
-      url: url,
-      success: function success(data) {
-        console.log(data);
-        var $ = cheerio.load(data);
-        var book = {
-          desc: $('#intro').find('p').text(),
-          image: $("#fmimg").find("img").attr('src') };
-
-        res(book);
-      },
-      fail: function fail() {
-        rej();
-      } });
-
-  });
-};exports.getDetail = getDetail;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ })
 ]]);
