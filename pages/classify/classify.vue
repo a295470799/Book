@@ -67,19 +67,19 @@
 			},
 			getNext(){
 				var _this = this
-				var list = _this.cacheList;
 				_this.pageIndex++;
 				
-				for (var i = _this.pageIndex - 1; i < _this.pageSize * _this.pageIndex; i++) {
-					_this.bookList.push(list[i])
+				for (var i = (_this.pageIndex - 1) * _this.pageSize; i < _this.pageSize * _this.pageIndex; i++) {
+					_this.bookList.push(_this.cacheList[i])
 				}
+				
 				var j = 0;
 				_this.bookList.forEach((item, index)=>{
 					j++;
 					if(item.desc == _this.bookDesc){
 						setTimeout(()=>{
 							_this.getInfo(item.url, item)
-						}, 333)
+						}, 500 * j)
 					}
 				})
 				

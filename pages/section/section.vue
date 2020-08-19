@@ -198,7 +198,6 @@
 				})
 			},
 			getText(param) {
-				console.log(param.url)
 				const cheerio = require('cheerio')
 				var this_ = this
 				this.getRequest({
