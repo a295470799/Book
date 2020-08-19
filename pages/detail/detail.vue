@@ -44,7 +44,7 @@
 				</view>
 				<view class="l-list-content">
 					<view class="l-list-sub-content">
-						<scroll-view scroll-y style="height:100%">
+						<scroll-view scroll-y="true" show-scrollbar='true'>
 							<view v-for="(item,index) in chapter" :key="index"  @tap="navtoSection(item)"> {{item.name}} </view>
 						</scroll-view>
 					</view>
@@ -72,7 +72,7 @@
 </template>
 
 <script>
-	import { getBookShelf, setBookShelf } from '@/common/book.js'
+	import { getBookShelf, setBookShelf, getChapter } from '@/common/book.js'
 	export default {
 		data() {
 			return {
@@ -90,27 +90,23 @@
 			// })
 			
 			const cheerio = require('cheerio')
-			var this_ = this
+			var _this = this
 			this.getRequest({
 				url: param.url,
 				success: function(res){
 					const $ = cheerio.load(res)
-					this_.book = {
+					_this.book = {
 						name: $('#maininfo').find('h1').text(),
 						user: $('#info').find('p').eq(0).text(),
 						desc: $('#intro').find('p').text(),
 						update: $('#maininfo').find('p').eq(2).text(),
 						newName: '最新章节：' + $('#info').find('p').eq(3).find('a').text(),
 						// 最新章节
-						newUrl: this_.$bookUrl + $('#info').find('p').eq(3).find('a').attr('href'),
+						newUrl: _this.$bookUrl + $('#info').find('p').eq(3).find('a').attr('href'),
 						image: $("#fmimg").find("img").attr('src'),
 					}
-					$('#list').find('dd').each(function(i, elem) {
-						this_.chapter.push({
-							name: $(this).find('a').text(),
-							url: this_.$bookUrl + $(this).find('a').attr('href')
-						})
-					})
+					let arr = getChapter('', res, _this.$bookUrl)
+					_this.chapter.push(...arr)
 				}
 			})
 		},
@@ -143,7 +139,10 @@
 
 <style>
 	.l-list-sub-content{
-		line-height: 55rpx;
+		line-height: 80rpx;
+	}
+	.l-list-sub-content scroll-view view{
+		border-bottom: 1px solid #efefef;
 	}
 	.back{
 		width: 40rpx;

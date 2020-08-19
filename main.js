@@ -17,14 +17,14 @@ Vue.prototype.$toast = function(title){
 Vue.prototype.getRequest = function(param){
 	!param.loading && uni.showLoading();
 	var ip = getIp();
-	var agent = getAgent();
+	// var agent = getAgent();
 	uni.request({
 	    url: param.url,
 		sslVerify: false,
 		header:{
 			'CLIENT-IP': ip,
 			'X-FORWARDED-FOR': ip,
-			'User-Agent': agent,
+			// 'User-Agent': agent,
 		},
 	    success: res => {
 			typeof param.success == "function" && param.success(res.data);

@@ -27,7 +27,7 @@
 					<view class="l-bottom-flex">
 						<view class="l-bottom-flex-name">间距</view>
 						<view class="l-bottom-flex-line">
-							<slider :value="lineHeight" min="50" max="150" @changing="changeLineHeight" @change="changeLineHeight"
+							<slider :value="lineHeight" min="40" max="150" @changing="changeLineHeight" @change="changeLineHeight"
 							 :activeColor="fontColor" :backgroundColor="lineBg" :block-color="fontColor" block-size="16" />
 						</view>
 					</view>
@@ -44,15 +44,22 @@
 			</view>
 			<view class="l-bottom-setting3">
 				<view @click="getMenu()">
-					<view><text class="iconfont">&#xe608;</text></view>
+					<view class="iconfont">
+						<image src="../../static/section/menu.png"></image>
+					</view>
 					<!-- <view>目录</view> -->
 				</view>
 				<view @click="changeTheme(thisTheme == 1 ? 0 : 1)">
-					<view><text class="iconfont">{{ thisTheme == 1 ? '&#xe6ee;' : '&#xe6a0;' }}</text></view>
+					<view class="iconfont">
+					<image v-if="thisTheme == 1" src="../../static/section/sun.png"></image>
+					<image v-else src="../../static/section/moon.png"></image>
+					</view>
 					<!-- <view>{{thisTheme==1?'白天':'夜间'}}</view> -->
 				</view>
 				<view @click="toggleSetting()">
-					<view><text class="iconfont">&#xe654;</text></view>
+					<view class="iconfont">
+						<image src="../../static/section/setting.png"></image>
+					</view>
 				</view>
 				<!-- <view @click="changeTheme(thisTheme == 2 ? 0 : 2)" :style="thisTheme == 2 ? 'color:green' : ''">
 					<view><text class="iconfont">&#xe654;</text></view>
@@ -62,15 +69,20 @@
 		</view>
 		<!-- 菜单结束 -->
 		<!-- 小说正文开始 -->
-		<view class="sview" :style="{ paddingTop : 'calc('+statusBarHeight+' + 110rpx)', color : textColor, fontSize : size + 'rpx', lineHeight : lineHeight + 'rpx'}">
+		<view class="sview" :style="{ paddingTop : 'calc(' + statusBarHeight + ' + 5rpx)', color : textColor, fontSize : size + 'rpx', lineHeight : lineHeight + 'rpx'}">
 			<rich-text :nodes="content_text"></rich-text>
+		</view>
+		<view @click="closeMenu" class="l-menu" :style="{left: showMenu ? '0' : '-100%', transition: showMenu ? 'all 0.7s' : 'none'}">
+			<scroll-view class="anmt" scroll-y="true" show-scrollbar="true" :style="{ height: windowHeight, left: showMenu ? '0' : '-100%' }">
+				<view v-for="(item,index) in chapter" :key="index"  @click.stop="navtoSection(item)"> {{item.name}} </view>
+			</scroll-view>
 		</view>
 		<!-- <button @click="scrolltolower" style="margin: 20px;">下一章</button> -->
 		<!-- 小说正文结束 -->
 	</view>
 </template>
 <script>
-	import { getBookShelf, setBookShelf } from '@/common/book.js'
+	import { getBookShelf, setBookShelf, getChapter } from '@/common/book.js'
 	import theme from '../../theme'
 	export default {
 		data() {
@@ -89,7 +101,7 @@
 				statusBarHeight: '',
 				Dindex: '', //当前章节索引
 				bookName: '', //书名
-				id: '', //本书ID
+				book_url: '', //本书Url
 				battery: '', //电量
 				systemTime: '', //系统时间
 				size: uni.getStorageSync('fontsize') ? uni.getStorageSync('fontsize') : 40, //正文字体大小
@@ -100,6 +112,8 @@
 				type: '', //翻页方式
 				showSetting: false,
 				bookShelf: [],
+				chapter: [],
+				showMenu: false
 			}
 		},
 		created() {
@@ -124,12 +138,23 @@
 			}
 			uni.getSystemInfo({
 				success: res => {
-					this.statusBarHeight = res.statusBarHeight + 'px';
+					this.windowHeight = res.windowHeight + 'px'
+					this.statusBarHeight = res.statusBarHeight + 'px'
 				}
 			})
 		},
 		onLoad(e) {
+			this.book_url = e.url;
 			this.getText(e)
+			
+			setTimeout(()=>{
+				let arr = this.book_url.split('/');
+				arr.splice(-1);
+				let url = arr.join('/');
+				getChapter(url, '', this.$bookUrl).then((res) => {
+					this.chapter = [...res];
+				})
+			}, 1000)
 		},
 		onShow() {
 			this.bookShelf = getBookShelf();
@@ -137,7 +162,10 @@
 		methods: {
 			scrolltolower() {
 				this.getText({
-					url: this.nextUrl
+					url: this.nextUrl,
+					name: param.name,
+					url: param.url,
+					image: param.image
 				})
 			},
 			getText(param) {
@@ -175,9 +203,10 @@
 				uni.setStorageSync('lineHeight', e.detail.value);
 			},
 			getMenu() {
-				uni.showToast({
-					title: '打开目录'
-				});
+				this.showMenu = true;
+			},
+			closeMenu(){
+				this.showMenu = false;
 			},
 			back() {
 				uni.navigateBack({});
@@ -202,22 +231,36 @@
 	}
 </script>
 <style>
-	@font-face {
-	  font-family: 'iconfont';  /* project id 2007537 */
-	  src: url('//at.alicdn.com/t/font_2007537_wmvi1n1b66k.eot');
-	  src: url('//at.alicdn.com/t/font_2007537_wmvi1n1b66k.eot?#iefix') format('embedded-opentype'),
-	  url('//at.alicdn.com/t/font_2007537_wmvi1n1b66k.woff2') format('woff2'),
-	  url('//at.alicdn.com/t/font_2007537_wmvi1n1b66k.woff') format('woff'),
-	  url('//at.alicdn.com/t/font_2007537_wmvi1n1b66k.ttf') format('truetype'),
-	  url('//at.alicdn.com/t/font_2007537_wmvi1n1b66k.svg#iconfont') format('svg');
-	}
-	
 	.l-page-bg {
 		position: fixed;
 		top: 0;
 		left: 0;
 		width: 100%;
 		height: 100%;
+	}
+	
+	.l-menu{
+		position: fixed;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,.1);
+		z-index: 99;
+		-webkit-transition: all 0.8s;
+		transition: all 0.8s;
+
+	}
+	.l-menu scroll-view{
+		position: fixed;
+		top: 0;
+		padding-left: 40rpx;
+		width: 80%;
+		box-sizing: border-box;
+		background: #FFFFFF;
+	}
+	.l-menu scroll-view view{
+		line-height: 70rpx;
+		border-bottom: 1px solid #efefef;
 	}
 
 	.zuizhong.active {
@@ -373,14 +416,6 @@
 	.l-bottom-area .l-bottom-setting3 image {
 		width: 40rpx;
 		height: 40rpx;
-	}
-
-	
-
-	.iconfont {
-		font-family: iconfont;
-		font-size: 42rpx;
-		color: #333333;
 	}
 
 	.guanggao {

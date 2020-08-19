@@ -41,7 +41,7 @@
 		methods: {
 			navtoSection(data) {
 				uni.navigateTo({
-					url: `/pages/section/section?url=` + data.url + "&title=" + data.name
+					url: `/pages/section/section?url=` + data.url + `&title=` + data.name + `&name=` + data.name + `&image=` + data.image
 				})
 			},
 		}
