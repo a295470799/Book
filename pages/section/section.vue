@@ -61,30 +61,6 @@
 			</view>
 		</view>
 		<!-- 菜单结束 -->
-		<!-- 顶部开始 -->
-		<!-- <view class="anmt" :style="{color:fontColor,lineHeight:statusBarHeight,backgroundColor:show?menuBg:pageBg,position:'fixed',top:'0',left:'0',zIndex:'6',width:'100%',fontSize:'3vw',zIndex:'20'}"> -->
-			<!-- 时间电量开始 -->
-			<!-- <view :style="{height:statusBarHeight,padding: '0 5vw'}">
-				<view style="float: left;letter-spacing:0">
-					<text v-text="systemTime"></text>
-				</view>
-				<view style="float: right;letter-spacing:0;">
-					<text class="iconfont icon-80dianliang" style="font-size: 5vw;position: relative;">
-						<text class="dianxin" :style="{backgroundColor:show?menuBg:pageBg}">
-							<text class="dLiang" :style="{backgroundColor:fontColor,width:battery+'%'}"></text>
-						</text>
-					</text>
-				</view>
-			</view> -->
-			<!-- 时间电量结束 -->
-			<!-- 书名章节开始 -->
-			<!-- <view style="height: 40rpx;line-height: 40rpx;padding: 0 5vw;">
-				<view style="float: left;width: 300rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;" v-text="shuming"></view>
-				<view v-text="section_title" style="float: right;width: 300rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;text-align: right;"></view>
-			</view> -->
-			<!-- 书名章节结束 -->
-		<!-- </view> -->
-		<!-- 顶部结束 -->
 		<!-- 小说正文开始 -->
 		<view class="sview" :style="{ paddingTop : 'calc('+statusBarHeight+' + 110rpx)', color : textColor, fontSize : size + 'rpx', lineHeight : lineHeight + 'rpx'}">
 			<rich-text :nodes="content_text"></rich-text>
@@ -94,7 +70,7 @@
 	</view>
 </template>
 <script>
-	// var interval, timeInter;
+	import { getBookShelf, setBookShelf } from '@/common/book.js'
 	import theme from '../../theme'
 	export default {
 		data() {
@@ -112,7 +88,7 @@
 				textColor: '#333', //富文本文字颜色
 				statusBarHeight: '',
 				Dindex: '', //当前章节索引
-				shuming: '', //书名
+				bookName: '', //书名
 				id: '', //本书ID
 				battery: '', //电量
 				systemTime: '', //系统时间
@@ -123,18 +99,8 @@
 				scroll_top: 0,
 				type: '', //翻页方式
 				showSetting: false,
-
+				bookShelf: [],
 			}
-		},
-		onUnload() {
-			// 页面卸载的时候清除定时器
-			// clearInterval(timeInter)
-			// clearInterval(dianliangInter)
-			uni.hideLoading();
-			//页面卸载的时候将通知栏显示出来
-			// #ifdef APP-PLUS
-			plus.navigator.setFullscreen(false);
-			// #endif
 		},
 		created() {
 			var this_ = this;
@@ -162,34 +128,11 @@
 				}
 			})
 		},
-		onShow() {
-			//页面显示的时候将通知栏隐藏掉
-			// #ifdef APP-PLUS
-			plus.navigator.setFullscreen(true);
-			// #endif
-		},
-		onHide() {
-			//页面隐藏的时候将通知栏显示出来
-			// #ifdef APP-PLUS
-			plus.navigator.setFullscreen(false);
-			// #endif
-		},
 		onLoad(e) {
-			// #ifdef APP-PLUS
-			// plus.navigator.setStatusBarStyle('dark');
-			// plus.navigator.setStatusBarBackground('#FF0000');
-			// // #endif
-			// this.dianliang();
-			// this.getTimes();
-			// //每分钟获取一次电量
-			// dianliangInter = setInterval(() => {
-			// 	this.dianliang();
-			// }, 60000)
-			// //每秒获取一次时间
-			// timeInter = setInterval(() => {
-			// 	this.getTimes();
-			// }, 1000)
 			this.getText(e)
+		},
+		onShow() {
+			this.bookShelf = getBookShelf();
 		},
 		methods: {
 			scrolltolower() {
@@ -199,36 +142,25 @@
 			},
 			getText(param) {
 				const cheerio = require('cheerio')
-				var this_ = this
 				this.getRequest({
 					url: param.url,
-					success: function(res) {
-						this_.content_text = '';
+					success: (res) => {
+						this.content_text = '';
 						uni.pageScrollTo({
 							scrollTop: 0,
 							duration: 10
 						});
 						const $ = cheerio.load(res)
-						this_.section_title = $('.bookname').find('h1').text();
-						var text = this_.section_title + `<br><br>`;
+						this.section_title = $('.bookname').find('h1').text();
+						var text = this.section_title + `<br><br>`;
 						text += $.html('#content');
 
-						this_.content_text = text
-						this_.shuming = param.name
-						this_.nextUrl = $(".bottem1").find('a').eq(3).attr('href')
-						var book = uni.getStorageSync('book')
-						book.hisUrl = param.url;
-						book.hisTitle = this_.content_text;
-						book.list = []
-						var hislist;
-						try {
-							hislist = uni.getStorageSync('hislist')
-						} catch (e) {}
-						if (!hislist) {
-							hislist = {}
-						}
-						hislist[book.name] = book
-						uni.setStorageSync('hislist', hislist)
+						this.content_text = text
+						this.bookName = param.name
+						this.nextUrl = $(".bottem1").find('a').eq(3).attr('href')
+						
+						let position = '';
+						setBookShelf(param.name, param.url, param.image, position);
 					}
 				})
 			},
@@ -266,44 +198,6 @@
 			toggleSetting(){
 				this.showSetting = !this.showSetting;
 			},
-			//获取系统电量
-			dianliang() {
-				// #ifdef APP-PLUS
-				// var this_ = this;
-				// if (uni.getSystemInfoSync().platform != 'ios') {
-				// 	var main = plus.android.runtimeMainActivity();
-				// 	var Intent = plus.android.importClass('android.content.Intent');
-				// 	var recevier = plus.android.implements('io.dcloud.feature.internal.reflect.BroadcastReceiver', {
-				// 		onReceive: function(context, intent) {
-				// 			var action = intent.getAction();
-				// 			if (action == Intent.ACTION_BATTERY_CHANGED) {
-				// 				var level = intent.getIntExtra("level", 0); //电量  
-				// 				var voltage = intent.getIntExtra("voltage", 0); //电池电压  
-				// 				var temperature = intent.getIntExtra("temperature", 0); //电池温度  
-				// 				//如需获取别的，在这里继续写，此代码只提供获取电量  
-				// 				this_.battery = level;
-				// 			}
-				// 		}
-				// 	});
-				// 	var IntentFilter = plus.android.importClass('android.content.IntentFilter');
-				// 	var filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-				// 	main.registerReceiver(recevier, filter);
-				// } else {
-				// 	var UIDevice = plus.ios.import("UIDevice");
-				// 	var dev = UIDevice.currentDevice();
-				// 	if (!dev.isBatteryMonitoringEnabled()) {
-				// 		dev.setBatteryMonitoringEnabled(true);
-				// 	}
-				// 	var level = dev.batteryLevel();
-				// 	this_.battery = level * 100;
-				// }
-				// #endif
-			},
-			getTimes() {
-				var times = new Date();
-				this.systemTime = (times.getHours() < 10 ? '0' + times.getHours() : times.getHours()) + ':' + (times.getMinutes() <
-					10 ? '0' + times.getMinutes() : times.getMinutes());
-			}
 		}
 	}
 </script>

@@ -60,10 +60,10 @@
 			<view class="l-handle-btn l-look-btn" @tap="borOpen(url)">
 				官方看书
 			</view> -->
-			<view class="l-handle-btn l-buy-btn" @tap="navtoSection(book.list[0])">
+			<view class="l-handle-btn l-buy-btn" @click="addToShelf()">
 				加入书架
 			</view>
-			<view class="l-handle-btn l-buy-btn" @tap="navtoSection(book.list[0])">
+			<view class="l-handle-btn l-buy-btn" @tap="navtoSection(chapter[0])">
 				开始阅读
 			</view>
 		</view>
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+	import { getBookShelf, setBookShelf } from '@/common/book.js'
 	export default {
 		data() {
 			return {
@@ -109,9 +110,7 @@
 							name: $(this).find('a').text(),
 							url: this_.$bookUrl + $(this).find('a').attr('href')
 						})
-					}),
-					//this_.book.list = this_.zhangjie;
-					uni.setStorageSync('book', this_.book)
+					})
 				}
 			})
 		},
@@ -128,13 +127,16 @@
 			},
 			navtoSection(data) {
 				uni.navigateTo({
-					url: `/pages/section/section?url=` + data.url + "&title=" + data.name
+					url: `/pages/section/section?url=` + data.url + `&title=` + data.name + `&name=` + this.book.name + `&image=` + this.book.image
 				})
 			},
 			orderChapter(){
 				this.asc = !this.asc
-				this.zhangjie.reverse()
+				this.chapter.reverse()
 			},
+			addToShelf(){
+				setBookShelf(this.book.name, this.chapter[0].url, this.book.image, '', 1);
+			}
 		}
 	}
 </script>

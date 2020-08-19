@@ -1,22 +1,22 @@
 <template>
 	<view class="content">
-		<view class="l-fixed">
+		<!-- <view class="l-fixed"> -->
 			<!-- #ifndef MP-WEIXIN -->
-			<view class="l-status"></view>
+			<!-- <view class="l-status"></view> -->
 			<!-- #endif -->
 			<!-- l-head -->
-			<view class="l-head">
+			<!-- <view class="l-head">
 				<view class="l-search">
 					<image class="l-icon-search" src="../../static/l-icon-search.png" mode=""></image>
 					<input type="text" class="l-search-input" disabled="" value="" placeholder="精彩热搜：金光布袋戏《羽国志异》" placeholder-class="l-holder" />
 				</view>
 			</view>
-		</view>
+		</view> -->
 
-		<view class="l-placeholder"></view>
+		<!-- <view class="l-placeholder"></view> -->
 
 		<view class="l-body l-clear-both">
-			<view class="l-li" v-for="(item,key) in hiss" :key="key" @tap="navtoSection(item)">
+			<view class="l-li" v-for="(item,key) in bookShelf" :key="key" @tap="navtoSection(item)">
 				<image class="l-li-img" :src="item.image" mode="aspectFill"></image>
 				<view class="l-li-txt">
 					{{item.name}}
@@ -27,28 +27,21 @@
 </template>
 
 <script>
+	import { getBookShelf } from '@/common/book.js'
 	export default {
 		data() {
 			return {
-				title: 'Hello',
-				img: `../../static/152b74dd6eb4c583fd8921a3f634b5dc.jpg`,
-				bookimg: `../../static/152b74dd6eb4c583fd8921a3f634b5dc.jpg`,
-				hiss:[],
+				title: '',
+				bookShelf:[],
 			}
 		},
-		onLoad() {
-			/* for(var item in obj){
-				this.hiss.push(obj[item])
-			} */
-		},
 		onShow() {
-			this.hiss = uni.getStorageSync('hislist')
+			this.bookShelf = getBookShelf();
 		},
-		
 		methods: {
 			navtoSection(data) {
 				uni.navigateTo({
-					url: `/pages/section/section?url=` + data.hisUrl + "&title=" + data.hisTitle
+					url: `/pages/section/section?url=` + data.url + "&title=" + data.name
 				})
 			},
 		}
