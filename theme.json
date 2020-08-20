@@ -3,33 +3,33 @@
 		{
 			"name":"默认",
 			"menuFontColor":"#333333",
-			"pageBg":"../../static/theme/white3.png",
-			"menuBg":"../../static/theme/white3.png",
+			"pageBg":"#ffffff",
+			"menuBg":"#ffffff",
 			"contentFontColor":"#222222"
 		},
 		{
 			"name":"夜间",
 			"menuFontColor":"#333333",
-			"pageBg":"../../static/theme/black.png",
-			"menuBg":"../../static/theme/black.png",
-			"contentFontColor":"#fff"
+			"pageBg":"#1f1f1f",
+			"menuBg":"#1f1f1f",
+			"contentFontColor":"#efefef"
 		},{
 			"name":"护眼",
 			"menuFontColor":"#969696",
-			"pageBg":"../../static/theme/eye.png",
-			"menuBg":"../../static/theme/eye.png",
+			"pageBg":"#333333",
+			"menuBg":"#333333",
 			"contentFontColor":"#202310"
 		},{
 			"name":"淡黄",
-			"menuFontColor":"#333333",
-			"pageBg":"../../static/theme/yellow2.png",
-			"menuBg":"../../static/theme/yellow2.png",
-			"contentFontColor":"#222222"
+			"menuFontColor":"#362e23",
+			"pageBg":"#f8e6c0",
+			"menuBg":"#f8e6c0",
+			"contentFontColor":"#6b5d54"
 		},{
 			"name":"绿色",
 			"menuFontColor":"#333333",
-			"pageBg":"../../static/theme/eye.png",
-			"menuBg":"../../static/theme/eye.png",
+			"pageBg":"#e5ecd5",
+			"menuBg":"#e5ecd5",
 			"contentFontColor":"#222222"
 			
 		}

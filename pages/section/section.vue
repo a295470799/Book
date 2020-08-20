@@ -1,21 +1,30 @@
 <template>
 	<view class="content">
 		<!-- 网页背景开始 -->
-		<view class="l-page-bg anmt" :style = "{ backgroundImage: `url(${pageBg})` }"></view>
+		<view class="l-page-bg anmt" :style = "{ backgroundColor: pageBg }"></view>
 		<view class="l-mid-area" @click = "clickArea()"></view>
 		<!-- 网页背景结束 -->
 		<!-- 带返回键的导航栏开始 -->
-		<view class="l-top-area anmt" :style = "{ color: menuFontColor, backgroundImage: `url(${menuBg})`,top : show ? '0' : '-100%' }">
+		<view class="l-top-area anmt" :style = "{ color: menuFontColor, backgroundColor: menuBg,top : show ? '0' : '-100%' }">
 			<!-- <view :style="{ height: statusBarHeight }"></view> -->
 			<view class="l-top-content">
+				<!-- #ifdef APP-PLUS -->
 				<image src="../../static/back.svg" class="l-top-back" @click="back()"></image>
+				<!-- #endif -->
 				<text>{{section_title}}</text>
 			</view>
 		</view>
 		<!-- 带返回键的导航栏结束 -->
 		<!-- 菜单开始 -->
-		<view class="l-bottom-area anmt" :style="{ color: menuFontColor, backgroundImage: `url(${menuBg})`, bottom: show ? '0' : '-100%'} ">
+		<view class="l-bottom-area anmt" :style="{ color: menuFontColor, backgroundColor: menuBg, bottom: show ? '0' : '-100%'} ">
 			<view v-if="showSetting">
+				<view class="l-bottom-light">
+					<image class="reduce" src="../../static/section/sun.png"></image>
+					<view class="l-bottom-flex-line">
+						<slider :value="light" min="0" max="1" step="0.1" @changing="changeLight" @change="changeLight" block-size="16" />
+					</view>
+					<image class="plus" src="../../static/section/sun.png"></image>
+				</view>
 				<view class="l-bottom-setting1">
 					<view class="l-bottom-flex">
 						<view class="l-bottom-flex-name">字体</view>
@@ -36,7 +45,7 @@
 					<view class="l-bottom-left">背景</view>
 					<view class="l-bottom-right">
 						<view class="l-bottom-color" v-for="(item,index) in themes" @tap="changeTheme(index)" :key="item.name" 
-						:style="{ backgroundImage: `url(${item.pageBg})`, borderColor : thisTheme == index ? item.menuFontColor : 'rgba(0,0,0,0)'}"
+						:style="{ backgroundColor: item.pageBg, borderColor : thisTheme == index ? item.menuFontColor : 'rgba(0,0,0,0)'}"
 						 v-if="index != 1 && index != 2">
 						 </view>
 					</view>
@@ -69,13 +78,12 @@
 		</view>
 		<!-- 菜单结束 -->
 		<!-- 小说正文开始 -->
-		<view class="sview" :style="{ backgroundImage: `url(${pageBg})`, color : contentFontColor, fontSize : size + 'rpx', lineHeight : lineHeight + 'rpx'}">
+		<view class="sview" :style="{ backgroundColor: pageBg, color : contentFontColor, fontSize : size + 'rpx', lineHeight : lineHeight + 'rpx'}">
 			<rich-text :nodes="content_text"></rich-text>
 		</view>
 		<view @click="closeMenu" class="l-menu">
 			<view :style="{ opacity: showMenu ? '1' : '0',visibility: showMenu ? 'visible' : 'hidden' }" class="menu-bg"></view>
 			<scroll-view class="anmt" scroll-y="true" show-scrollbar="true" :style="{ height: windowHeight, left: showMenu ? '0' : '-100%' }">
-				
 				<view v-for="(item,index) in chapter" :key="index"  @click.stop="navtoSection(item)"> {{item.name}} </view>
 			</scroll-view>
 		</view>
@@ -108,6 +116,7 @@
 				systemTime: '', //系统时间
 				size: uni.getStorageSync('fontsize') ? uni.getStorageSync('fontsize') : 40, //正文字体大小
 				lineHeight: uni.getStorageSync('lineHeight') ? uni.getStorageSync('lineHeight') : 70, //正文行间距
+				light: uni.getStorageSync('light') ? uni.getStorageSync('light') : 1,
 				nextUrl: '',
 				windowHeight: 0,
 				scroll_top: 0,
@@ -143,6 +152,13 @@
 					this.windowHeight = res.windowHeight + 'px'
 					this.statusBarHeight = res.statusBarHeight + 'px'
 				}
+			})
+			
+			uni.getScreenBrightness({
+			    success: (res) => {
+			        // console.log('屏幕亮度值：' + res.value);
+					this.light = res.value;
+			    }
 			})
 		},
 		onLoad(e) {
@@ -198,6 +214,16 @@
 			changeFontSize(e) {
 				this.size = e.detail.value;
 				uni.setStorageSync('fontsize', e.detail.value);
+			},
+			changeLight(e) {
+				this.light = e.detail.value;
+				uni.setScreenBrightness({
+				    value: this.light,
+				    success: function () {
+				        // console.log('success');
+				    }
+				})
+				uni.setStorageSync('light', e.detail.value);
 			},
 			//修改正文行间距
 			changeLineHeight(e) {
@@ -271,25 +297,23 @@
 	
 	.l-menu ::-webkit-scrollbar
 	{
-		width: 16upx!important;
-		height: 16upx!important;
-		background-color: #F5F5F5;
+		width: 30rpx!important;
+		height: 30rpx!important;
+		background-color: #FFFFFF;
 	}
 	  
 	/*定义滚动条轨道 内阴影+圆角*/
 	.l-menu ::-webkit-scrollbar-track
 	{
-		border-radius: 10px;
 		background-color: #FFFFFF;
 	}
 	  
 	/*定义滑块 内阴影+圆角*/
 	.l-menu ::-webkit-scrollbar-thumb
 	{
-		box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-		border-radius: 10px;
-		background-color: #d0d0d0;
+		/* box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3); */
+		background-color: #dcdcdc;
 	}
 
 	.zuizhong.active {
@@ -372,6 +396,9 @@
 		line-height: 100rpx;
 		text-overflow: ellipsis;
 	}
+	.l-top-content text{
+		margin-left: 10rpx;
+	}
 
 	page {
 		letter-spacing: 6rpx;
@@ -406,6 +433,25 @@
 	.l-bottom-setting3{
 		display: flex;
 	}
+	.l-bottom-light{
+		padding: 0 30rpx;
+		width: 100%;
+		display:flex;
+		justify-content: space-between;
+		align-items: center;
+		box-sizing: border-box;
+	}
+	.l-bottom-light .reduce{
+		width: 30rpx;
+		height: 30rpx;
+	}
+	.l-bottom-light .plus{
+		width: 40rpx;
+		height: 40rpx;
+	}
+	.l-bottom-light .l-bottom-flex-line {
+		width: 100%;
+	}
 	.l-bottom-setting1 .l-bottom-flex{
 		width: 50%;
 		display:flex;
@@ -416,14 +462,14 @@
 		text-align: center;
 		font-size: 24rpx;
 	}
-	.l-bottom-setting1 .l-bottom-flex-line{
+	.l-bottom-flex-line{
 		width: 70%;
 		height: 70rpx;
 		display: flex;
 		align-content: center;
 		justify-content: center;
 	}
-	.l-bottom-setting1 .l-bottom-flex-line>slider{
+	.l-bottom-flex-line>slider{
 		width: 100%;
 	}
 	.l-bottom-setting2 .l-bottom-left{
