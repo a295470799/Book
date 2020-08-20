@@ -1,11 +1,11 @@
 <template>
 	<view class="content">
 		<!-- 网页背景开始 -->
-		<view class="l-page-bg anmt" :style = "{ backgroundColor: pageBg }"></view>
+		<view class="l-page-bg anmt" :style = "{ backgroundImage: `url(${pageBg})` }"></view>
 		<view class="l-mid-area" @click = "clickArea()"></view>
 		<!-- 网页背景结束 -->
 		<!-- 带返回键的导航栏开始 -->
-		<view class="l-top-area anmt" :style = "{ color: fontColor, backgroundColor: menuBg,top : show ? '0' : '-100%' }">
+		<view class="l-top-area anmt" :style = "{ color: menuFontColor, backgroundImage: `url(${menuBg})`,top : show ? '0' : '-100%' }">
 			<!-- <view :style="{ height: statusBarHeight }"></view> -->
 			<view class="l-top-content">
 				<image src="../../static/back.svg" class="l-top-back" @click="back()"></image>
@@ -14,21 +14,21 @@
 		</view>
 		<!-- 带返回键的导航栏结束 -->
 		<!-- 菜单开始 -->
-		<view class="l-bottom-area anmt" :style="{ color: fontColor, backgroundColor: menuBg, bottom: show ? '0' : '-100%'} ">
+		<view class="l-bottom-area anmt" :style="{ color: menuFontColor, backgroundImage: `url(${menuBg})`, bottom: show ? '0' : '-100%'} ">
 			<view v-if="showSetting">
 				<view class="l-bottom-setting1">
 					<view class="l-bottom-flex">
 						<view class="l-bottom-flex-name">字体</view>
 						<view class="l-bottom-flex-line">
 							<slider :value="size" min="20" max="100" @changing="changeFontSize" @change="changeFontSize"
-							 :activeColor="fontColor" :backgroundColor="lineBg" :block-color="fontColor" block-size="16" />
+							 :activeColor="menuFontColor" :backgroundColor="lineBg" :block-color="menuFontColor" block-size="16" />
 						</view>
 					</view>
 					<view class="l-bottom-flex">
 						<view class="l-bottom-flex-name">间距</view>
 						<view class="l-bottom-flex-line">
 							<slider :value="lineHeight" min="40" max="150" @changing="changeLineHeight" @change="changeLineHeight"
-							 :activeColor="fontColor" :backgroundColor="lineBg" :block-color="fontColor" block-size="16" />
+							 :activeColor="menuFontColor" :backgroundColor="lineBg" :block-color="menuFontColor" block-size="16" />
 						</view>
 					</view>
 				</view>
@@ -36,7 +36,7 @@
 					<view class="l-bottom-left">背景</view>
 					<view class="l-bottom-right">
 						<view class="l-bottom-color" v-for="(item,index) in themes" @tap="changeTheme(index)" :key="item.name" 
-						:style="{ backgroundColor : item.pageBg, borderColor : thisTheme == index ? item.fontColor : 'rgba(0,0,0,0)'}"
+						:style="{ backgroundImage: `url(${item.pageBg})`, borderColor : thisTheme == index ? item.menuFontColor : 'rgba(0,0,0,0)'}"
 						 v-if="index != 1 && index != 2">
 						 </view>
 					</view>
@@ -69,11 +69,13 @@
 		</view>
 		<!-- 菜单结束 -->
 		<!-- 小说正文开始 -->
-		<view class="sview" :style="{ paddingTop : 'calc(' + statusBarHeight + ' + 5rpx)', color : textColor, fontSize : size + 'rpx', lineHeight : lineHeight + 'rpx'}">
+		<view class="sview" :style="{ backgroundImage: `url(${pageBg})`, color : contentFontColor, fontSize : size + 'rpx', lineHeight : lineHeight + 'rpx'}">
 			<rich-text :nodes="content_text"></rich-text>
 		</view>
-		<view @click="closeMenu" class="l-menu" :style="{left: showMenu ? '0' : '-100%', transition: showMenu ? 'all 0.7s' : 'none'}">
+		<view @click="closeMenu" class="l-menu">
+			<view :style="{ opacity: showMenu ? '1' : '0',visibility: showMenu ? 'visible' : 'hidden' }" class="menu-bg"></view>
 			<scroll-view class="anmt" scroll-y="true" show-scrollbar="true" :style="{ height: windowHeight, left: showMenu ? '0' : '-100%' }">
+				
 				<view v-for="(item,index) in chapter" :key="index"  @click.stop="navtoSection(item)"> {{item.name}} </view>
 			</scroll-view>
 		</view>
@@ -93,11 +95,11 @@
 				show: false, //菜单display
 				thisTheme: 0, //当前主题
 				themes: theme.data, //主题列表
-				fontColor: 'rgb(100,103,120)', //菜单字体颜色
-				pageBg: 'rgb(252, 216, 142)', //页面背景色
+				menuFontColor: 'rgb(100,103,120)', //菜单字体颜色
+				pageBg: '../../static/theme/white.png', //页面背景图
 				lineBg: '#333', //滑动线条颜色
-				menuBg: '#fff', //菜单背景色
-				textColor: '#333', //富文本文字颜色
+				menuBg: '../../static/theme/white.png', //菜单背景图
+				contentFontColor: '#333', //富文本文字颜色
 				statusBarHeight: '',
 				Dindex: '', //当前章节索引
 				bookName: '', //书名
@@ -125,16 +127,16 @@
 			var zt = uni.getStorageSync('theme'); //主题索引
 			if (zt) {
 				this.thisTheme = zt;
-				this.fontColor = theme.data[zt].fontColor; //菜单字体颜色
+				this.menuFontColor = theme.data[zt].menuFontColor; //菜单字体颜色
 				this.pageBg = theme.data[zt].pageBg; //页面背景色
 				this.menuBg = theme.data[zt].menuBg; //菜单背景色
-				this.textColor = theme.data[zt].textColor; //富文本文字颜色
+				this.contentFontColor = theme.data[zt].contentFontColor; //富文本文字颜色
 			} else {
 				this.thisTheme = 0;
-				this.fontColor = theme.data[0].fontColor; //菜单字体颜色
+				this.menuFontColor = theme.data[0].menuFontColor; //菜单字体颜色
 				this.pageBg = theme.data[0].pageBg; //页面背景色
 				this.menuBg = theme.data[0].menuBg; //菜单背景色
-				this.textColor = theme.data[0].textColor; //富文本文字颜色
+				this.contentFontColor = theme.data[0].contentFontColor; //富文本文字颜色
 			}
 			uni.getSystemInfo({
 				success: res => {
@@ -217,10 +219,10 @@
 			},
 			//切换主题
 			changeTheme(e) {
-				this.fontColor = theme.data[e].fontColor; //菜单字体颜色
+				this.menuFontColor = theme.data[e].menuFontColor; //菜单字体颜色
 				this.pageBg = theme.data[e].pageBg; //页面背景色
 				this.menuBg = theme.data[e].menuBg; //菜单背景色
-				this.textColor = theme.data[e].textColor; //富文本文字颜色
+				this.contentFontColor = theme.data[e].contentFontColor; //富文本文字颜色
 				uni.setStorageSync('theme', e);
 				this.thisTheme = e;
 			},
@@ -240,14 +242,17 @@
 	}
 	
 	.l-menu{
+		
+	}
+	.l-menu .menu-bg{
 		position: fixed;
 		top: 0;
 		width: 100%;
 		height: 100%;
-		background: rgba(0,0,0,.1);
+		background: rgba(0,0,0,.2);
 		z-index: 99;
-		-webkit-transition: all 0.8s;
-		transition: all 0.8s;
+		-webkit-transition: all 1s;
+		transition: all 1s;
 
 	}
 	.l-menu scroll-view{
@@ -257,10 +262,34 @@
 		width: 80%;
 		box-sizing: border-box;
 		background: #FFFFFF;
+		z-index: 100;
 	}
 	.l-menu scroll-view view{
 		line-height: 70rpx;
 		border-bottom: 1px solid #efefef;
+	}
+	
+	.l-menu ::-webkit-scrollbar
+	{
+		width: 16upx!important;
+		height: 16upx!important;
+		background-color: #F5F5F5;
+	}
+	  
+	/*定义滚动条轨道 内阴影+圆角*/
+	.l-menu ::-webkit-scrollbar-track
+	{
+		border-radius: 10px;
+		background-color: #FFFFFF;
+	}
+	  
+	/*定义滑块 内阴影+圆角*/
+	.l-menu ::-webkit-scrollbar-thumb
+	{
+		box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+		border-radius: 10px;
+		background-color: #d0d0d0;
 	}
 
 	.zuizhong.active {
@@ -355,6 +384,7 @@
 		width: 100%;
 		opacity: 1;
 		z-index: 9;
+		box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
 	}
 
 	.l-bottom-area {
@@ -365,6 +395,7 @@
 		width: 100%;
 		opacity: 1;
 		z-index: 9;
+		box-shadow: 0 -2px 4px 0 rgba(0,0,0,.08);
 	}
 	.l-bottom-setting1,
 	.l-bottom-setting2,

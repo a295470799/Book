@@ -2,35 +2,36 @@
 	"data":[
 		{
 			"name":"默认",
-			"fontColor":"#333",
-			"pageBg":"#fcfcfc",
-			"menuBg":"#fff",
-			"textColor":"#000"
+			"menuFontColor":"#333333",
+			"pageBg":"../../static/theme/white3.png",
+			"menuBg":"../../static/theme/white3.png",
+			"contentFontColor":"#222222"
 		},
 		{
 			"name":"夜间",
-			"fontColor":"#555",
-			"pageBg":"#191919",
-			"menuBg":"#1f1f1f",
-			"textColor":"#555"
+			"menuFontColor":"#333333",
+			"pageBg":"../../static/theme/black.png",
+			"menuBg":"../../static/theme/black.png",
+			"contentFontColor":"#fff"
 		},{
 			"name":"护眼",
-			"fontColor":"#969696",
-			"pageBg":"#dde7c5",
-			"menuBg":"#333",
-			"textColor":"#202310"
+			"menuFontColor":"#969696",
+			"pageBg":"../../static/theme/eye.png",
+			"menuBg":"../../static/theme/eye.png",
+			"contentFontColor":"#202310"
 		},{
 			"name":"淡黄",
-			"fontColor":"#362e23",
-			"pageBg":"#f8e6c0",
-			"menuBg":"#f8e5c5",
-			"textColor":"#6b5d54"
+			"menuFontColor":"#333333",
+			"pageBg":"../../static/theme/yellow2.png",
+			"menuBg":"../../static/theme/yellow2.png",
+			"contentFontColor":"#222222"
 		},{
-			"name":"粉色",
-			"fontColor":"#4d1e24",
-			"pageBg":"#eec5cb",
-			"menuBg":"#f6dcdf",
-			"textColor":"#7f5b5f"
+			"name":"绿色",
+			"menuFontColor":"#333333",
+			"pageBg":"../../static/theme/eye.png",
+			"menuBg":"../../static/theme/eye.png",
+			"contentFontColor":"#222222"
+			
 		}
 	]
 }
