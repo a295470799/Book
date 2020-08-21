@@ -2,10 +2,10 @@
 	<view class="content">
 		<!-- 网页背景开始 -->
 		<view class="l-page-bg anmt" :style = "{ backgroundColor: pageBg }"></view>
-		<view class="l-mid-area" @click = "clickArea()"></view>
+		<view class="l-mid-area" @click="clickArea()"></view>
 		<!-- 网页背景结束 -->
 		<!-- 带返回键的导航栏开始 -->
-		<view class="l-top-area anmt" :style = "{ color: menuFontColor, backgroundColor: menuBg,top : show ? '0' : '-100%' }">
+		<view class="l-top-area anmt" :style = "{ color: menuFontColor, backgroundColor: menuBg,top : show ? '0' : '-150rpx' }">
 			<!-- <view :style="{ height: statusBarHeight }"></view> -->
 			<view class="l-top-content">
 				<!-- #ifdef APP-PLUS -->
@@ -16,7 +16,7 @@
 		</view>
 		<!-- 带返回键的导航栏结束 -->
 		<!-- 菜单开始 -->
-		<view class="l-bottom-area anmt" :style="{ color: menuFontColor, backgroundColor: menuBg, bottom: show ? '0' : '-100%'} ">
+		<view class="l-bottom-area anmt" :style="{ color: menuFontColor, backgroundColor: menuBg, bottom: show ? '0' : '-150rpx'} ">
 			<view v-if="showSetting">
 				<view class="l-bottom-light">
 					<image class="reduce" src="../../static/section/sun.png"></image>
@@ -78,17 +78,20 @@
 		</view>
 		<!-- 菜单结束 -->
 		<!-- 小说正文开始 -->
-		<view class="sview" :style="{ backgroundColor: pageBg, color : contentFontColor, fontSize : size + 'rpx', lineHeight : lineHeight + 'rpx'}">
+		<view id="bookContent" class="sview" :style="{ backgroundColor: pageBg, color : contentFontColor, fontSize : size + 'rpx', lineHeight : lineHeight + 'rpx'}">
 			<rich-text :nodes="content_text"></rich-text>
 		</view>
+		<!-- <button @click="scrolltolower" style="margin: 20px;">下一章</button> -->
+		
+		<!-- 小说正文结束 -->
+		<!-- 目录开始 -->
 		<view @click="closeMenu" class="l-menu">
 			<view :style="{ opacity: showMenu ? '1' : '0',visibility: showMenu ? 'visible' : 'hidden' }" class="menu-bg"></view>
 			<scroll-view class="anmt" scroll-y="true" show-scrollbar="true" :style="{ height: windowHeight, left: showMenu ? '0' : '-100%' }">
-				<view v-for="(item,index) in chapter" :key="index"  @click.stop="navtoSection(item)"> {{item.name}} </view>
+				<view v-for="(item,index) in chapter" :key="index" :style="{ color: item.name == section_title ? '#e14101' : contentFontColor}" @click.stop="getText(item, true)">{{item.name}}</view>
 			</scroll-view>
 		</view>
-		<!-- <button @click="scrolltolower" style="margin: 20px;">下一章</button> -->
-		<!-- 小说正文结束 -->
+		<!-- 目录结束 -->
 	</view>
 </template>
 <script>
@@ -177,36 +180,46 @@
 		onShow() {
 			this.bookShelf = getBookShelf();
 		},
+		onReachBottom() {
+			this.getNext();
+		},
 		methods: {
-			scrolltolower() {
+			getNext() {
 				this.getText({
-					url: this.nextUrl,
-					name: param.name,
-					url: param.url,
-					image: param.image
-				})
+					url: this.nextUrl
+				}, false, true)
 			},
-			getText(param) {
+			getText(param, menu = false, next = false) {
 				const cheerio = require('cheerio')
 				this.getRequest({
 					url: param.url,
+					loading: next,
 					success: (res) => {
-						this.content_text = '';
-						uni.pageScrollTo({
-							scrollTop: 0,
-							duration: 10
-						});
+						// this.content_text = '';
+						// uni.pageScrollTo({
+						// 	scrollTop: 0,
+						// 	duration: 10
+						// });
 						const $ = cheerio.load(res)
 						this.section_title = $('.bookname').find('h1').text();
 						var text = this.section_title + `<br><br>`;
 						text += $.html('#content');
-
-						this.content_text = text
+						
+						if(next){
+							this.content_text += text
+						} else {
+							this.content_text = text
+						}
 						this.bookName = param.name
-						this.nextUrl = $(".bottem1").find('a').eq(3).attr('href')
+						this.nextUrl = this.$bookUrl + $(".bottem1").find('a').eq(3).attr('href')
 						
 						let position = '';
 						setBookShelf(param.name, param.url, param.image, position);
+						
+						if(menu){
+							this.showMenu = false
+							this.showSetting = false
+						}
 					}
 				})
 			},
@@ -242,6 +255,7 @@
 			clickArea() {
 				this.show = !this.show;
 				this.showSetting = !this.show ? false : this.showSetting
+				console.log(this.show)
 			},
 			//切换主题
 			changeTheme(e) {
@@ -365,7 +379,7 @@
 	.sview {
 		width: calc(100% - 40rpx);
 		font-size: 45rpx;
-		line-height: 90rpx;
+		line-height: 80rpx;
 		position: relative;
 		text-indent: calc(2em + 12rpx);
 		margin: 0 auto;
@@ -377,17 +391,6 @@
 		padding: 0 20rpx 100rpx;
 
 	}
-
-	.titlee {
-		width: 100%;
-		font-size: 45rpx;
-		line-height: 65rpx;
-		position: relative;
-		z-index: 5;
-		padding: 0 20rpx 50rpx;
-		text-indent: -2.3em;
-	}
-
 	.l-top-content {
 		display: flex;
 		align-items: center;

@@ -39,7 +39,8 @@
 				"app-plus":{
 					"titleNView": false
 				}
-			}
+			},
+			"onReachBottomDistance": 200
 		},
 		{
 			"path": "pages/detail/detail",
