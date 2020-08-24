@@ -28,7 +28,7 @@
 				</view>
 			</view>
 			
-			<!-- <button @click="getBooks(nextPage)"> 加载下一页</button> -->
+			<!-- <button @tap="getBooks(nextPage)"> 加载下一页</button> -->
 		</view>
 	</view>
 </template>

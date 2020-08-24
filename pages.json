@@ -62,7 +62,8 @@
 				"navigationBarTitleText": "书架",
 				"app-plus":{
 					"titleNView":false
-				}
+				},
+				"enablePullDownRefresh": true
 			}
 		},
 		{

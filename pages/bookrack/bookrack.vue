@@ -1,25 +1,50 @@
 <template>
 	<view class="content">
-		<!-- <view class="l-fixed"> -->
-			<!-- #ifndef MP-WEIXIN -->
-			<!-- <view class="l-status"></view> -->
-			<!-- #endif -->
-			<!-- l-head -->
-			<!-- <view class="l-head">
-				<view class="l-search">
-					<image class="l-icon-search" src="../../static/l-icon-search.png" mode=""></image>
-					<input type="text" class="l-search-input" disabled="" value="" placeholder="精彩热搜：金光布袋戏《羽国志异》" placeholder-class="l-holder" />
+		<view class="l-body">
+			<view class="l-tab-item">
+				<text :class="{'active' : 0 == current}" @tap="changeTab(0)">我的书架</text>
+				<text :class="{'active' : 1 == current}" @tap="changeTab(1)">浏览记录</text>
+			</view>
+			<view v-if="current == 0" class="l-shelf">
+				<view v-if="bookShelf.length > 0" class="l-dl" v-for="(item,index) in bookShelf" :key="index" @tap="navtoDetail(item)">
+					<image class="l-dt" :src="item.image" mode="aspectFill"></image>
+					<view class="l-dd">
+						<view class="l-dd-title">
+							{{item.bookName}}
+						</view>
+						<view class="l-dd-content">
+							{{item.last}}
+						</view>
+						<view class="l-dd-content">
+							{{item.user}}
+						</view>
+						<view class="l-dd-footer">
+							上次阅读到：{{item.chapterName}}
+						</view>
+					</view>
+				</view>
+				<view v-else>
+					<text>书架是空的哦</text>
 				</view>
 			</view>
-		</view> -->
-
-		<!-- <view class="l-placeholder"></view> -->
-
-		<view class="l-body l-clear-both">
-			<view class="l-li" v-for="(item,key) in bookShelf" :key="key" @tap="navtoSection(item)">
-				<image class="l-li-img" :src="item.image" mode="aspectFill"></image>
-				<view class="l-li-txt">
-					{{item.name}}
+			
+			<view v-if="current == 1" class="l-history">
+				<view v-if="bookHistory.length > 0" class="l-dl" v-for="(item,index) in bookHistory" :key="index" @tap="navtoDetail(item)">
+					<image class="l-dt" :src="item.image" mode="aspectFill"></image>
+					<view class="l-dd">
+						<view class="l-dd-title">
+							{{item.bookName}}
+						</view>
+						<view class="l-dd-content">
+							
+						</view>
+						<view class="l-dd-footer">
+							上次阅读到：{{item.chapterName}}
+						</view>
+					</view>
+				</view>
+				<view v-else>
+					<text>你还没有看过书</text>
 				</view>
 			</view>
 		</view>
@@ -33,12 +58,26 @@
 			return {
 				title: '',
 				bookShelf:[],
+				bookHistory: [],
+				current: 0,
 			}
 		},
 		onShow() {
-			this.bookShelf = getBookShelf();
+			this.getData();
+		},
+		onPullDownRefresh(){
+			this.getData()
 		},
 		methods: {
+			changeTab(e){
+				this.current = e
+			},
+			getData(){
+				let shelf = getBookShelf();
+				this.bookShelf = shelf.filter((item)=>item.type == 1)
+				this.bookHistory = shelf.filter((item)=>item.type == 2)
+				uni.stopPullDownRefresh()
+			},
 			navtoSection(data) {
 				uni.navigateTo({
 					url: `/pages/section/section?url=` + data.url + `&title=` + data.name + `&name=` + data.name + `&image=` + data.image
@@ -50,57 +89,54 @@
 
 <style>
 	/* l-body */
-
-	.l-body {
-		padding: var(--pad-lr) 0 var(--pad-lr) var(--pad-lr);
-	}
-
-	.l-ul {
+	.l-tab-item{
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding-bottom: 32rpx;
+		padding: 80rpx 15% 40rpx;
 	}
-
-	.l-add,
-	.l-li {
-		width: 28%;
-		float: left;
-		height: 392rpx;
-		margin-right: 5%;
-		margin-bottom: 32rpx;
-	}
-
-	.l-li {
-		text-align: center;
-	}
-
-	.l-add-view,
-	.l-li-img {
-		width: 100%;
-		height: 300rpx;
-		border-radius: 10rpx;
-		margin-bottom: 8rpx;
-	}
-
-	.l-add-view {
+	.l-tab-item text{
+		padding-bottom: 20rpx;
 		box-sizing: border-box;
+		border-bottom: 1px solid #FFFFFF;
+	}
+	.l-tab-item text.active{
+		border-bottom: 1px solid #1a99de;
+	}
+	
+	.l-dl {
+		margin-top: 40rpx;
 		display: flex;
-		border: 6rpx solid rgba(126, 127, 148, 1);
 		align-items: center;
-		justify-content: center;
+		width: 100%;
+		height: 210rpx;
+	}
+	
+	.l-dt {
+		width: 160rpx;
+		height: 100%;
+		border-radius: 10rpx;
+		margin-right: 24rpx;
+	}
+	
+	.l-dd {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+	
+	.l-dd-title {
+		color: var(--c-txt-1);
+		font: bold var(--f-size-4) normal;
+		padding-bottom: 20rpx;
+	}
+	
+	.l-dd-content,
+	.l-dd-footer {
+		color: var(--c-txt-2);
+		font: var(--f-size-1)/var(--f-size-4) normal;
+		padding-bottom: 10rpx;
 	}
 
-	.l-icon-add {
-		width: 36rpx;
-		height: 36rpx;
-	}
-
-	.l-li-txt {
-		padding: 0 10rpx;
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
-		overflow: hidden;
-	}
 </style>

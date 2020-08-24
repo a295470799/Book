@@ -55,23 +55,35 @@ export const getChapter = (url, res, host) => {
 	}
 }
 
-export const setBookShelf = (name, url, image, position, type) => {
-	// name     -- 书名
-	// url      -- 上次阅读章节url
-	// image    -- 封面图
-	// position --上次阅读位置，不设置则从头开始
-	// type     -- 类型 1:书架 2:历史记录
+export const setBookShelf = (bookName, user, last, chapterName, chaptUrl, image, position, type) => {
+	// bookName     -- 书名
+	// user         -- 作者
+	// chapterName  -- 上次阅读章节名
+	// chaptUrl     -- 上次阅读章节url
+	// image        -- 封面图
+	// position     --上次阅读位置，不设置则从头开始(暂时没用)
+	// type         -- 类型 1:书架 2:历史记录
 	var hislist = [...uni.getStorageSync('book_shelf')] || [];
 	let shelf = {
-		name: name,
-		url: url,
+		bookName: bookName,
+		chapterName: chapterName,
+		user: user,
+		last: last,
+		chaptUrl: chaptUrl,
 		image: image,
 		position: position,
 		type: type != 1 ? 2 : 1,
 	}
 	let add = true;
 	hislist.forEach((item, key) => {
-		if(item.name == shelf.name){
+		if(item.bookName == shelf.bookName){
+			if(shelf.type == 2){
+				item.chapterName = shelf.chapterName
+				item.chaptUrl = shelf.chaptUrl
+				item.position = shelf.position
+			} else {
+				item.type = 1
+			}
 			add = false
 		}
 	})

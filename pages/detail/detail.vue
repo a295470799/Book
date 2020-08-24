@@ -37,7 +37,7 @@
 			<view class="l-list">
 				<view class="l-h3">
 					<text class="l-h3-title">章节</text>
-					<view class="" @click="orderChapter">
+					<view class="" @tap="orderChapter">
 						<view class="l-h3-more" >{{ asc ? '倒序' : '正序' }}
 						</view>
 					</view>
@@ -60,7 +60,7 @@
 			<view class="l-handle-btn l-look-btn" @tap="borOpen(url)">
 				官方看书
 			</view> -->
-			<view class="l-handle-btn l-buy-btn" @click="addToShelf()">
+			<view class="l-handle-btn l-buy-btn" @tap="addToShelf()">
 				加入书架
 			</view>
 			<view class="l-handle-btn l-buy-btn" @tap="navtoSection(chapter[0])">
@@ -131,7 +131,7 @@
 				this.chapter.reverse()
 			},
 			addToShelf(){
-				setBookShelf(this.book.name, this.chapter[0].url, this.book.image, '', 1);
+				setBookShelf(this.book.name, this.book.user, this.book.newName, this.chapter[0].name, this.chapter[0].url, this.book.image, '', 1);
 			}
 		}
 	}

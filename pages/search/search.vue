@@ -2,12 +2,12 @@
 	<view class="content">
 		<view class="l-head">
 			<!-- #ifdef !MP-WEIXIN -->
-			<!-- <view class="l-search-back iconfont" @click="goBack">&#xe607;</view> -->
+			<!-- <view class="l-search-back iconfont" @tap="goBack">&#xe607;</view> -->
 			<!-- #endif -->
 			
 			<view class="l-search">
 				<input confirm-type="search" @confirm="confirm" @input="getSearch" type="text" :value="value" class="l-search-input" placeholder="斗罗大陆" placeholder-class="l-holder" />
-				<view class="clear" @click="clearInput">
+				<view class="clear" @tap="clearInput">
 					<text class="iconfont">&#xe710;</text>
 				</view>
 			</view>
@@ -16,7 +16,7 @@
 			<view class="l-search-hot">
 				<text class="l-search-hot-name">热门</text>
 				<view class="l-search-hot-value">
-					<view class="l-search-item" v-for="(item,index) in hotList" :key="index" @click="searchKey(item)">
+					<view class="l-search-item" v-for="(item,index) in hotList" :key="index" @tap="searchKey(item)">
 						{{item}}
 					</view>
 				</view>
@@ -24,10 +24,10 @@
 			<view class="l-search-history">
 				<view class="l-search-history-outer">
 					<text class="l-search-history-name">搜索历史</text>
-					<view class="iconfont" @click="clearAll">&#xe637;</view>
+					<view class="iconfont" @tap="clearAll">&#xe637;</view>
 				</view>
 				<view class="l-search-history-value">
-					<view class="l-search-item" v-for="(item,index) in historyList" :key="index" @click="searchKey(item)">
+					<view class="l-search-item" v-for="(item,index) in historyList" :key="index" @tap="searchKey(item)">
 						{{item}}
 					</view>
 				</view>

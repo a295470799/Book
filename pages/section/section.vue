@@ -2,26 +2,26 @@
 	<view class="content">
 		<!-- 网页背景开始 -->
 		<view class="l-page-bg anmt" :style = "{ backgroundColor: pageBg }"></view>
-		<view class="l-mid-area" @click="clickArea()"></view>
+		<view class="l-mid-area" @tap="clickArea()"></view>
 		<!-- 网页背景结束 -->
 		<!-- 带返回键的导航栏开始 -->
-		<view class="l-top-area anmt" :style = "{ color: menuFontColor, backgroundColor: menuBg,top : show ? '0' : '-150rpx' }">
+		<view class="l-top-area anmt" :style = "{ color: menuFontColor, backgroundColor: menuBg,top : show ? '0' : '-135rpx' }">
 			<!-- <view :style="{ height: statusBarHeight }"></view> -->
 			<view class="l-top-content">
 				<!-- #ifdef APP-PLUS -->
-				<image src="../../static/back.svg" class="l-top-back" @click="back()"></image>
+				<image src="../../static/back.svg" class="l-top-back" @tap="back()"></image>
 				<!-- #endif -->
 				<text>{{section_title}}</text>
 			</view>
 		</view>
 		<!-- 带返回键的导航栏结束 -->
 		<!-- 菜单开始 -->
-		<view class="l-bottom-area anmt" :style="{ color: menuFontColor, backgroundColor: menuBg, bottom: show ? '0' : '-150rpx'} ">
+		<view class="l-bottom-area anmt" :style="{ color: menuFontColor, backgroundColor: menuBg, bottom: show ? '0' : '-120rpx'} ">
 			<view v-if="showSetting">
 				<view class="l-bottom-light">
 					<image class="reduce" src="../../static/section/sun.png"></image>
 					<view class="l-bottom-flex-line">
-						<slider :value="light" min="0" max="1" step="0.1" @changing="changeLight" @change="changeLight" block-size="16" />
+						<slider :value="light" min="0" max="1" step="0.05" @changing="changeLight" @change="changeLight" block-size="16" />
 					</view>
 					<image class="plus" src="../../static/section/sun.png"></image>
 				</view>
@@ -52,25 +52,25 @@
 				</view>
 			</view>
 			<view class="l-bottom-setting3">
-				<view @click="getMenu()">
+				<view @tap="getMenu()">
 					<view class="iconfont">
 						<image src="../../static/section/menu.png"></image>
 					</view>
 					<!-- <view>目录</view> -->
 				</view>
-				<view @click="changeTheme(thisTheme == 1 ? 0 : 1)">
+				<view @tap="changeTheme(thisTheme == 1 ? 0 : 1)">
 					<view class="iconfont">
 					<image v-if="thisTheme == 1" src="../../static/section/sun.png"></image>
 					<image v-else src="../../static/section/moon.png"></image>
 					</view>
 					<!-- <view>{{thisTheme==1?'白天':'夜间'}}</view> -->
 				</view>
-				<view @click="toggleSetting()">
+				<view @tap="toggleSetting()">
 					<view class="iconfont">
 						<image src="../../static/section/setting.png"></image>
 					</view>
 				</view>
-				<!-- <view @click="changeTheme(thisTheme == 2 ? 0 : 2)" :style="thisTheme == 2 ? 'color:green' : ''">
+				<!-- <view @tap="changeTheme(thisTheme == 2 ? 0 : 2)" :style="thisTheme == 2 ? 'color:green' : ''">
 					<view><text class="iconfont">&#xe654;</text></view>
 					<view>护眼</view>
 				</view> -->
@@ -81,14 +81,14 @@
 		<view id="bookContent" class="sview" :style="{ backgroundColor: pageBg, color : contentFontColor, fontSize : size + 'rpx', lineHeight : lineHeight + 'rpx'}">
 			<rich-text :nodes="content_text"></rich-text>
 		</view>
-		<!-- <button @click="scrolltolower" style="margin: 20px;">下一章</button> -->
+		<!-- <button @tap="scrolltolower" style="margin: 20px;">下一章</button> -->
 		
 		<!-- 小说正文结束 -->
 		<!-- 目录开始 -->
-		<view @click="closeMenu" class="l-menu">
+		<view @tap="closeMenu" class="l-menu">
 			<view :style="{ opacity: showMenu ? '1' : '0',visibility: showMenu ? 'visible' : 'hidden' }" class="menu-bg"></view>
 			<scroll-view class="anmt" scroll-y="true" show-scrollbar="true" :style="{ height: windowHeight, left: showMenu ? '0' : '-100%' }">
-				<view v-for="(item,index) in chapter" :key="index" :style="{ color: item.name == section_title ? '#e14101' : contentFontColor}" @click.stop="getText(item, true)">{{item.name}}</view>
+				<view v-for="(item,index) in chapter" :key="index" :style="{ color: item.name == section_title ? '#e14101' : contentFontColor}" @tap.stop="getText(item, true)">{{item.name}}</view>
 			</scroll-view>
 		</view>
 		<!-- 目录结束 -->
@@ -186,7 +186,8 @@
 		methods: {
 			getNext() {
 				this.getText({
-					url: this.nextUrl
+					url: this.nextUrl,
+					name: this.bookName,
 				}, false, true)
 			},
 			getText(param, menu = false, next = false) {
@@ -214,7 +215,7 @@
 						this.nextUrl = this.$bookUrl + $(".bottem1").find('a').eq(3).attr('href')
 						
 						let position = '';
-						setBookShelf(param.name, param.url, param.image, position);
+						setBookShelf(param.name, '', '', this.section_title, param.url, param.image, position);
 						
 						if(menu){
 							this.showMenu = false
@@ -394,13 +395,13 @@
 	.l-top-content {
 		display: flex;
 		align-items: center;
-		/* margin-top:40rpx; */
+		padding-top: 30rpx;
 		height: 100rpx;
-		line-height: 100rpx;
+		/* line-height: 100rpx; */
 		text-overflow: ellipsis;
 	}
 	.l-top-content text{
-		margin-left: 10rpx;
+		margin-left: 50rpx;
 	}
 
 	page {

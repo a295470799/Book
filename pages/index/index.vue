@@ -23,7 +23,7 @@
 			<!-- l-swiper -->
 
 			<swiper class="l-swiper" :indicator-dots="true" :autoplay="true" :interval="3000" :duration="500" indicator-color="var(--c-bg-2)"
-			 indicator-active-color="#1a99de" circular @click="$toast(`轮播图`)">
+			 indicator-active-color="#1a99de" circular @tap="$toast(`轮播图`)">
 				<swiper-item v-for="(item, index) in imgList" :key="index">
 					<view class="l-swiper-item">
 						<image class="l-carousel-img" :src="item" mode="aspectFill"></image>
