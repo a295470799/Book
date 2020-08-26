@@ -6,7 +6,10 @@
 				<text :class="{'active' : 1 == current}" @tap="changeTab(1)">浏览记录</text>
 			</view>
 			<view v-if="current == 0" class="l-shelf">
-				<view v-if="bookShelf.length > 0" class="l-dl" v-for="(item,index) in bookShelf" :key="index" @tap="navtoDetail(item)">
+				<view class="center" v-if="bookShelf.length == 0">
+					<text>书架是空的哦</text>
+				</view>
+				<view v-else class="l-dl" v-for="(item,index) in bookShelf" :key="index" @tap="navtoSection(item)">
 					<image class="l-dt" :src="item.image" mode="aspectFill"></image>
 					<view class="l-dd">
 						<view class="l-dd-title">
@@ -23,13 +26,13 @@
 						</view>
 					</view>
 				</view>
-				<view v-else>
-					<text>书架是空的哦</text>
-				</view>
 			</view>
 			
 			<view v-if="current == 1" class="l-history">
-				<view v-if="bookHistory.length > 0" class="l-dl" v-for="(item,index) in bookHistory" :key="index" @tap="navtoDetail(item)">
+				<view class="center" v-if="bookHistory.length == 0">
+					<text>暂时没有浏览记录</text>
+				</view>
+				<view v-else class="l-dl" v-for="(item,index) in bookHistory" :key="index" @tap="navtoSection(item)">
 					<image class="l-dt" :src="item.image" mode="aspectFill"></image>
 					<view class="l-dd">
 						<view class="l-dd-title">
@@ -42,9 +45,6 @@
 							上次阅读到：{{item.chapterName}}
 						</view>
 					</view>
-				</view>
-				<view v-else>
-					<text>你还没有看过书</text>
 				</view>
 			</view>
 		</view>
@@ -102,6 +102,10 @@
 	}
 	.l-tab-item text.active{
 		border-bottom: 1px solid #1a99de;
+	}
+	
+	.center{
+		text-align: center;
 	}
 	
 	.l-dl {
